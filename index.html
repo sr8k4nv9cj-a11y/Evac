@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ЭвакоЛайн — эвакуатор в Москве и области за 30 минут</title>
+<meta name="description" content="Круглосуточная эвакуация автомобилей по Москве и области. Расчёт стоимости на карте, выезд за 30 минут.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12151b;
+    --surface:#1b1f27;
+    --surface-2:#232936;
+    --surface-3:#2b3241;
+    --line:#2e3542;
+    --beacon:#ffb020;
+    --beacon-2:#ff7a45;
+    --route:#3ddc97;
+    --text:#f3f1ea;
+    --text-dim:#9ba3b4;
+    --text-dim-2:#6b7484;
+    --radius:18px;
+    --shadow-beacon: 0 0 40px rgba(255,176,32,.25);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Manrope', sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--beacon); color:#14171c;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+  h1,h2,h3,h4{font-family:'Unbounded', sans-serif; line-height:1.15; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+
+  /* ---------- ambient road-line background ---------- */
+  .road-divider{
+    position:relative;
+    height:2px;
+    width:100%;
+    background:repeating-linear-gradient(90deg, var(--beacon) 0 28px, transparent 28px 56px);
+    background-size:200% 100%;
+    opacity:.35;
+    animation:roadmove 4s linear infinite;
+  }
+  @keyframes roadmove{
+    from{background-position:0 0;}
+    to{background-position:-112px 0;}
+  }
+
+  /* ---------- beacon signature element ---------- */
+  .beacon-dot{
+    position:relative;
+    width:12px; height:12px;
+    border-radius:50%;
+    background:var(--beacon);
+    box-shadow:0 0 0 0 rgba(255,176,32,.6);
+    animation:beaconpulse 1.6s ease-out infinite;
+    flex-shrink:0;
+  }
+  @keyframes beaconpulse{
+    0%{box-shadow:0 0 0 0 rgba(255,176,32,.55);}
+    70%{box-shadow:0 0 0 14px rgba(255,176,32,0);}
+    100%{box-shadow:0 0 0 0 rgba(255,176,32,0);}
+  }
+  .status-pill{
+    display:inline-flex; align-items:center; gap:9px;
+    padding:8px 16px 8px 12px;
+    border-radius:999px;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    font-size:13px;
+    color:var(--text-dim);
+  }
+  .status-pill b{color:var(--route); font-family:'JetBrains Mono', monospace; font-weight:600;}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(18,21,27,.85);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Unbounded', sans-serif; font-weight:700; font-size:18px;
+    color:var(--text);
+  }
+  .logo .beacon-dot{width:9px; height:9px;}
+  .nav-links{display:flex; gap:28px; align-items:center;}
+  .nav-links a{font-size:14px; color:var(--text-dim); transition:color .2s;}
+  .nav-links a:hover{color:var(--text);}
+  .phone-cta{
+    display:flex; align-items:center; gap:14px;
+  }
+  .phone-num{font-family:'JetBrains Mono', monospace; font-weight:600; font-size:15px; color:var(--text);}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:12px 22px;
+    border-radius:12px;
+    font-weight:700; font-size:14px;
+    border:none; cursor:pointer;
+    font-family:'Manrope', sans-serif;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--beacon), var(--beacon-2));
+    color:#181206;
+    box-shadow:0 8px 24px rgba(255,122,69,.25);
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 12px 30px rgba(255,122,69,.4);}
+  .btn-primary:active{transform:translateY(0);}
+  .btn-ghost{
+    background:transparent; color:var(--text);
+    border:1px solid var(--line);
+  }
+  .btn-ghost:hover{border-color:var(--beacon); color:var(--beacon);}
+  .menu-toggle{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;}
+  .menu-toggle span{width:22px; height:2px; background:var(--text);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:88px 0 64px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';
+    position:absolute; inset:-20% -10% auto -10%;
+    height:520px;
+    background:radial-gradient(ellipse at 30% 20%, rgba(255,176,32,.16), transparent 60%),
+               radial-gradient(ellipse at 80% 10%, rgba(61,220,151,.10), transparent 55%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:center;
+    position:relative;
+  }
+  .eyebrow{
+    display:flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--beacon); margin-bottom:20px;
+  }
+  .hero h1{
+    font-size:clamp(38px, 5vw, 60px);
+    font-weight:800;
+    margin-bottom:22px;
+  }
+  .hero h1 .accent{
+    background:linear-gradient(100deg, var(--beacon), var(--beacon-2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p.lead{
+    font-size:17px; color:var(--text-dim); max-width:520px; margin-bottom:32px;
+  }
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:40px;}
+  .hero-stats{
+    display:flex; gap:0; border-top:1px solid var(--line); padding-top:24px;
+  }
+  .stat{flex:1; padding-right:20px;}
+  .stat .num{font-family:'JetBrains Mono', monospace; font-weight:700; font-size:26px; color:var(--text);}
+  .stat .num span{color:var(--beacon);}
+  .stat .label{font-size:12.5px; color:var(--text-dim-2); margin-top:4px;}
+
+  /* hero dispatch panel */
+  .dispatch-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:26px;
+    position:relative;
+    box-shadow:0 30px 60px rgba(0,0,0,.35);
+  }
+  .dispatch-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
+  .dispatch-head .title{font-family:'Unbounded', sans-serif; font-size:14px; font-weight:600;}
+  .dispatch-list{display:flex; flex-direction:column; gap:12px;}
+  .dispatch-row{
+    display:flex; align-items:center; gap:12px;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:12px 14px;
+  }
+  .dispatch-row .ico{
+    width:38px; height:38px; border-radius:10px;
+    background:var(--surface-3);
+    display:flex; align-items:center; justify-content:center;
+    font-size:17px; flex-shrink:0;
+  }
+  .dispatch-row .info{flex:1; min-width:0;}
+  .dispatch-row .route{font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .dispatch-row .meta{font-size:11.5px; color:var(--text-dim-2); font-family:'JetBrains Mono', monospace;}
+  .dispatch-row .eta{
+    font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:700;
+    color:var(--route); flex-shrink:0;
+  }
+
+  /* ---------- section shell ---------- */
+  section{padding:96px 0;}
+  .section-head{max-width:640px; margin-bottom:52px;}
+  .section-tag{
+    font-family:'JetBrains Mono', monospace; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--beacon); margin-bottom:14px; display:block;
+  }
+  .section-head h2{font-size:clamp(28px, 3.4vw, 40px); font-weight:700; margin-bottom:14px;}
+  .section-head p{color:var(--text-dim); font-size:15.5px;}
+
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- calculator ---------- */
+  .calc-section{background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .calc-grid{display:grid; grid-template-columns:.95fr 1.05fr; gap:0; border-radius:24px; overflow:hidden; border:1px solid var(--line);}
+  .calc-form{background:var(--surface-2); padding:36px;}
+  .calc-form h3{font-size:20px; margin-bottom:6px;}
+  .calc-form .sub{color:var(--text-dim); font-size:13.5px; margin-bottom:26px;}
+  .field{margin-bottom:16px; position:relative;}
+  .field label{display:block; font-size:12.5px; color:var(--text-dim); margin-bottom:7px; font-weight:600;}
+  .field input, .field select{
+    width:100%;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:13px 14px;
+    color:var(--text);
+    font-family:'Manrope', sans-serif;
+    font-size:14.5px;
+    outline:none;
+    transition:border-color .18s;
+  }
+  .field input::placeholder{color:var(--text-dim-2);}
+  .field input:focus, .field select:focus{border-color:var(--beacon);}
+  .field .dot-from, .field .dot-to{
+    position:absolute; left:14px; top:41px; width:8px; height:8px; border-radius:50%;
+  }
+  .field .dot-from{background:var(--route);}
+  .field .dot-to{background:var(--beacon);}
+  .field.with-dot input{padding-left:32px;}
+  .suggest-list{
+    position:absolute; top:calc(100% + 4px); left:0; right:0; z-index:20;
+    background:var(--surface-3); border:1px solid var(--line); border-radius:12px;
+    overflow:hidden; display:none; max-height:220px; overflow-y:auto;
+  }
+  .suggest-list.show{display:block;}
+  .suggest-list div{padding:11px 14px; font-size:13.5px; cursor:pointer; border-bottom:1px solid var(--line);}
+  .suggest-list div:last-child{border-bottom:none;}
+  .suggest-list div:hover{background:var(--surface-2); color:var(--beacon);}
+
+  .service-toggle{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px;}
+  .service-btn{
+    border:1px solid var(--line); border-radius:12px; padding:12px;
+    cursor:pointer; font-size:13.5px; font-weight:700; text-align:center;
+    background:var(--surface); transition:all .18s; color:var(--text-dim);
+  }
+  .service-btn .sub{display:block; font-weight:400; font-size:11px; color:var(--text-dim-2); margin-top:3px;}
+  .service-btn.active{border-color:var(--route); background:rgba(61,220,151,.08); color:var(--route);}
+  .service-btn.active .sub{color:var(--route); opacity:.75;}
+  .service-btn:hover{border-color:var(--route);}
+
+  .car-types{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:18px;}
+  .car-type{
+    border:1px solid var(--line); border-radius:12px; padding:11px 8px;
+    cursor:pointer; font-size:12.5px; text-align:center;
+    background:var(--surface); transition:all .18s;
+  }
+  .car-type span{display:block; font-size:18px; margin-bottom:4px;}
+  .car-type.active{border-color:var(--beacon); background:rgba(255,176,32,.08); color:var(--beacon);}
+  .car-type:hover{border-color:var(--beacon);}
+  .car-type.disabled{opacity:.35; cursor:not-allowed; pointer-events:none;}
+
+  .addon-check{
+    display:flex; align-items:center; gap:10px;
+    border:1px solid var(--line); border-radius:12px; padding:12px 14px;
+    margin-bottom:18px; cursor:pointer; background:var(--surface); transition:border-color .18s;
+  }
+  .addon-check:hover{border-color:var(--beacon-2);}
+  .addon-check input{width:16px; height:16px; accent-color:var(--beacon);}
+  .addon-check .txt{flex:1; font-size:13px;}
+  .addon-check .txt b{display:block; font-size:12px; color:var(--text-dim-2); font-weight:500; margin-top:2px;}
+  .addon-check .amt{font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--beacon); font-weight:700;}
+
+  .calc-btn{width:100%; padding:15px; font-size:15px; margin-top:4px;}
+  .calc-hint{font-size:12px; color:var(--text-dim-2); margin-top:12px; text-align:center;}
+
+  .calc-map-wrap{position:relative; background:var(--surface-3); min-height:520px;}
+  #map{width:100%; height:100%; min-height:520px;}
+  .map-fallback{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:14px; padding:40px; text-align:center; color:var(--text-dim); background:var(--surface-3);
+  }
+  .map-fallback .icon{font-size:34px;}
+  .map-fallback code{
+    background:var(--surface); border:1px solid var(--line); padding:2px 8px; border-radius:6px;
+    font-family:'JetBrains Mono', monospace; color:var(--beacon); font-size:12.5px;
+  }
+
+  .price-overlay{
+    position:absolute; left:20px; right:20px; bottom:20px;
+    background:rgba(27,31,39,.92);
+    backdrop-filter:blur(10px);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px 22px;
+    display:none;
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
+  }
+  .price-overlay.show{display:block; animation:popup .4s ease;}
+  @keyframes popup{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+  .price-overlay .row{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;}
+  .price-overlay .row:last-child{margin-bottom:0;}
+  .price-overlay .label{font-size:12.5px; color:var(--text-dim);}
+  .price-overlay .val{font-family:'JetBrains Mono', monospace; font-size:13px;}
+  .price-overlay .total{
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:1px dashed var(--line); margin-top:12px; padding-top:14px;
+  }
+  .price-overlay .total .label{font-size:13.5px; color:var(--text); font-weight:700;}
+  .price-overlay .total .amount{
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:26px; color:var(--beacon);
+    letter-spacing:-.02em;
+  }
+
+  /* ---------- services ---------- */
+  .services-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;}
+  .service-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:26px;
+    transition:transform .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .service-card:hover{transform:translateY(-6px); border-color:var(--beacon); background:var(--surface-2);}
+  .service-card .ico{
+    width:48px; height:48px; border-radius:13px;
+    background:var(--surface-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:18px;
+  }
+  .service-card h4{font-size:16.5px; margin-bottom:8px;}
+  .service-card p{font-size:13.5px; color:var(--text-dim);}
+  .service-card .price-tag{
+    margin-top:14px; font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--route);
+  }
+
+  /* ---------- process ---------- */
+  .process{position:relative;}
+  .process-list{display:grid; grid-template-columns:repeat(4, 1fr); gap:0; position:relative;}
+  .process-list::before{
+    content:''; position:absolute; top:26px; left:6%; right:6%; height:1px;
+    background:repeating-linear-gradient(90deg, var(--line) 0 10px, transparent 10px 18px);
+  }
+  .process-step{position:relative; padding:0 16px; text-align:left;}
+  .process-num{
+    width:52px; height:52px; border-radius:50%;
+    background:var(--surface); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono', monospace; font-weight:700; color:var(--beacon);
+    margin-bottom:20px; position:relative; z-index:2;
+  }
+  .process-step h4{font-size:16px; margin-bottom:8px;}
+  .process-step p{font-size:13.5px; color:var(--text-dim);}
+
+  /* ---------- coverage ---------- */
+  .coverage-section{background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .coverage-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;}
+  .coverage-tags{display:flex; flex-wrap:wrap; gap:9px; margin-top:22px;}
+  .coverage-tags span{
+    padding:8px 14px; border-radius:999px; background:var(--surface-2); border:1px solid var(--line);
+    font-size:12.5px; color:var(--text-dim);
+  }
+  .coverage-visual{
+    aspect-ratio:1/1; border-radius:24px; background:var(--surface-2); border:1px solid var(--line);
+    position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center;
+  }
+  .coverage-visual .ring{
+    position:absolute; border:1px solid var(--line); border-radius:50%;
+  }
+  .coverage-visual .ring.r1{width:30%; height:30%; border-color:rgba(255,176,32,.5);}
+  .coverage-visual .ring.r2{width:55%; height:55%;}
+  .coverage-visual .ring.r3{width:80%; height:80%;}
+  .coverage-visual .ring.r4{width:105%; height:105%;}
+  .coverage-visual .center-dot{
+    width:14px; height:14px; border-radius:50%; background:var(--beacon); position:relative; z-index:3;
+    box-shadow:0 0 0 0 rgba(255,176,32,.6);
+    animation:beaconpulse 2s ease-out infinite;
+  }
+  .coverage-visual .sweep{
+    position:absolute; width:50%; height:2px; left:50%; top:50%;
+    background:linear-gradient(90deg, rgba(255,176,32,.7), transparent);
+    transform-origin:left center;
+    animation:sweep 4s linear infinite;
+  }
+  @keyframes sweep{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
+
+  /* ---------- pricing ---------- */
+  .pricing-table{
+    width:100%; border-collapse:collapse; background:var(--surface);
+    border:1px solid var(--line); border-radius:18px; overflow:hidden;
+  }
+  .pricing-table th, .pricing-table td{
+    padding:16px 20px; text-align:left; font-size:14px; border-bottom:1px solid var(--line);
+  }
+  .pricing-table th{
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--text-dim-2); background:var(--surface-2);
+  }
+  .pricing-table td.price{font-family:'JetBrains Mono', monospace; color:var(--beacon); font-weight:600;}
+  .pricing-table tr:last-child td{border-bottom:none;}
+  .pricing-table tr:hover td{background:rgba(255,176,32,.04);}
+  .pricing-note{margin-top:16px; font-size:12.5px; color:var(--text-dim-2);}
+
+  /* ---------- testimonials ---------- */
+  .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  .testi-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:24px;
+  }
+  .testi-stars{color:var(--beacon); font-size:14px; margin-bottom:14px; letter-spacing:2px;}
+  .testi-card p{font-size:14px; color:var(--text-dim); margin-bottom:18px;}
+  .testi-who{display:flex; align-items:center; gap:10px;}
+  .testi-avatar{
+    width:36px; height:36px; border-radius:50%;
+    background:var(--surface-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-family:'Unbounded',sans-serif; font-size:13px;
+  }
+  .testi-name{font-size:13px; font-weight:700;}
+  .testi-loc{font-size:11.5px; color:var(--text-dim-2);}
+
+  /* ---------- final cta ---------- */
+  .final-cta{
+    text-align:center;
+    background:linear-gradient(160deg, var(--surface-2), var(--surface));
+    border:1px solid var(--line); border-radius:28px; padding:64px 32px;
+    position:relative; overflow:hidden;
+  }
+  .final-cta::before{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(circle at 50% 0%, rgba(255,176,32,.14), transparent 60%);
+  }
+  .final-cta h2{font-size:clamp(26px,4vw,38px); margin-bottom:16px; position:relative;}
+  .final-cta p{color:var(--text-dim); margin-bottom:30px; position:relative;}
+  .final-cta .hero-actions{justify-content:center; position:relative;}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line); padding:48px 0 28px;}
+  .footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:32px; margin-bottom:36px;}
+  .footer-col h5{font-size:12.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-dim-2); margin-bottom:16px; font-family:'JetBrains Mono', monospace;}
+  .footer-col a, .footer-col p{display:block; font-size:13.5px; color:var(--text-dim); margin-bottom:10px;}
+  .footer-col a:hover{color:var(--beacon);}
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+    border-top:1px solid var(--line); padding-top:22px; font-size:12px; color:var(--text-dim-2);
+  }
+
+  /* ---------- sticky mobile call ---------- */
+  .sticky-call{
+    position:fixed; right:20px; bottom:20px; z-index:200;
+    width:60px; height:60px; border-radius:50%;
+    background:linear-gradient(135deg, var(--beacon), var(--beacon-2));
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; box-shadow:0 12px 30px rgba(255,122,69,.4);
+    animation:beaconpulse 2.4s ease-out infinite;
+  }
+
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .calc-grid{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:1fr 1fr;}
+    .process-list{grid-template-columns:1fr 1fr; row-gap:36px;}
+    .process-list::before{display:none;}
+    .coverage-grid{grid-template-columns:1fr;}
+    .testi-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .nav-links{display:none;}
+    .menu-toggle{display:flex;}
+    #map, .calc-map-wrap{min-height:380px;}
+  }
+  @media (max-width:600px){
+    .services-grid{grid-template-columns:1fr;}
+    .process-list{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr;}
+    .hero-stats{flex-wrap:wrap; gap:18px;}
+    .stat{flex:1 1 40%;}
+    .phone-num{display:none;}
+    .car-types{grid-template-columns:1fr 1fr;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  :focus-visible{outline:2px solid var(--beacon); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav wrap">
+    <div class="logo"><span class="beacon-dot"></span>Эвако<span style="color:var(--beacon)">Лайн</span></div>
+    <nav class="nav-links">
+      <a href="#calc">Расчёт стоимости</a>
+      <a href="#services">Услуги</a>
+      <a href="#process">Как это работает</a>
+      <a href="#coverage">Зона выезда</a>
+      <a href="#pricing">Тарифы</a>
+    </nav>
+    <div class="phone-cta">
+      <a href="tel:+74951234567" class="phone-num">+7 (495) 123-45-67</a>
+      <a href="#calc" class="btn btn-primary">Вызвать эвакуатор</a>
+      <button class="menu-toggle" aria-label="Меню"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="beacon-dot"></span>Диспетчерская на линии — 24/7</div>
+      <h1>Эвакуатор приедет,<br>пока вы <span class="accent">дочитаете</span> эту страницу</h1>
+      <p class="lead">Забираем машину с места поломки, ДТП или штрафстоянки по Москве и области. Стоимость видно сразу на карте — никаких «сюрпризов» по приезде экипажа.</p>
+      <div class="hero-actions">
+        <a href="#calc" class="btn btn-primary">Рассчитать стоимость</a>
+        <a href="tel:+74951234567" class="btn btn-ghost">☎ Позвонить диспетчеру</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="num"><span>28</span> мин</div><div class="label">средний выезд по МКАД</div></div>
+        <div class="stat"><div class="num"><span>24</span> экипажа</div><div class="label">на линии сейчас</div></div>
+        <div class="stat"><div class="num"><span>7</span> лет</div><div class="label">эвакуируем без выходных</div></div>
+      </div>
+    </div>
+
+    <div class="dispatch-card reveal">
+      <div class="dispatch-head">
+        <div class="title">Live-диспетчер</div>
+        <span class="status-pill"><span class="beacon-dot"></span>онлайн: <b>24</b></span>
+      </div>
+      <div class="dispatch-list">
+        <div class="dispatch-row">
+          <div class="ico">🚗</div>
+          <div class="info"><div class="route">Кутузовский пр. → сервис на Рублёвке</div><div class="meta">18.4 км · легковой</div></div>
+          <div class="eta">в пути</div>
+        </div>
+        <div class="dispatch-row">
+          <div class="ico">🚙</div>
+          <div class="info"><div class="route">МКАД 47км → Мытищи</div><div class="meta">9.1 км · внедорожник</div></div>
+          <div class="eta">12 мин</div>
+        </div>
+        <div class="dispatch-row">
+          <div class="ico">🏍️</div>
+          <div class="info"><div class="route">Ленинский пр. → мотосервис</div><div class="meta">6.2 км · мото</div></div>
+          <div class="eta">погрузка</div>
+        </div>
+        <div class="dispatch-row">
+          <div class="ico">🚘</div>
+          <div class="info"><div class="route">Химки → официальный дилер</div><div class="meta">14.7 км · АКПП/платформа</div></div>
+          <div class="eta">27 мин</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="road-divider"></div>
+</section>
+
+<section class="calc-section" id="calc">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Калькулятор</span>
+      <h2>Узнайте цену до вызова</h2>
+      <p>Укажите, откуда забрать машину и куда её доставить — маршрут и стоимость рассчитаются по карте автоматически.</p>
+    </div>
+
+    <div class="calc-grid reveal">
+      <div class="calc-form">
+        <h3>Маршрут эвакуации</h3>
+        <div class="sub">Начните вводить адрес — подскажем варианты</div>
+
+        <div class="field with-dot">
+          <label>Откуда забрать</label>
+          <span class="dot-from"></span>
+          <input type="text" id="from-input" placeholder="Например, МКАД 47 км" autocomplete="off">
+          <div class="suggest-list" id="from-suggest"></div>
+        </div>
+
+        <div class="field with-dot">
+          <label>Куда доставить</label>
+          <span class="dot-to"></span>
+          <input type="text" id="to-input" placeholder="Например, ул. Автозаводская, 5" autocomplete="off">
+          <div class="suggest-list" id="to-suggest"></div>
+        </div>
+
+        <div class="field">
+          <label>Способ эвакуации</label>
+        </div>
+        <div class="service-toggle" id="service-toggle">
+          <div class="service-btn active" data-service="evac">Эвакуатор<span class="sub">подача + цена за км</span></div>
+          <div class="service-btn" data-service="manipulator">Манипулятор<span class="sub">подача + цена за км</span></div>
+        </div>
+
+        <div class="field">
+          <label>Тип автомобиля</label>
+        </div>
+        <div class="car-types" id="car-types">
+          <div class="car-type active" data-type="sedan"><span>🚗</span>Легковой</div>
+          <div class="car-type" data-type="suv"><span>🚙</span>Кроссовер / джип</div>
+          <div class="car-type" data-type="heavy"><span>🚛</span>Тяжёлый джип</div>
+        </div>
+
+        <label class="addon-check">
+          <input type="checkbox" id="wheel-lock">
+          <span class="txt">Колесо заблокировано<b>Например, стояночным тормозом или блокиратором</b></span>
+          <span class="amt">+1 500 ₽</span>
+        </label>
+
+        <button class="btn btn-primary calc-btn" id="calc-btn">Рассчитать маршрут и цену</button>
+      </div>
+
+      <div class="calc-map-wrap">
+        <div id="map"></div>
+        <div class="map-fallback" id="map-fallback" style="display:none;">
+          <div class="icon">🗺️</div>
+          <div>
+            Карта появится, как только будет подключён<br>ключ Яндекс.Карт: найдите в коде переменную
+            <br><code>YANDEX_MAPS_API_KEY</code>
+            <br>и вставьте свой бесплатный ключ с
+            <br><a href="https://developer.tech.yandex.ru/" target="_blank" style="color:var(--beacon)">developer.tech.yandex.ru</a>.
+          </div>
+          <div style="width:100%; max-width:280px; margin-top:8px;">
+            <label style="display:block; font-size:12px; color:var(--text-dim); margin-bottom:6px;">Расстояние вручную (км), для демо-расчёта</label>
+            <input type="number" id="manual-distance" placeholder="Например, 15" style="width:100%; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 12px; color:var(--text); font-family:'JetBrains Mono',monospace;">
+          </div>
+        </div>
+        <div class="price-overlay" id="price-overlay">
+          <div class="row"><span class="label">Расстояние</span><span class="val" id="p-dist">—</span></div>
+          <div class="row"><span class="label">Время в пути</span><span class="val" id="p-time">—</span></div>
+          <div class="row"><span class="label">Подача + километраж</span><span class="val" id="p-base">—</span></div>
+          <div class="total">
+            <span class="label">Итого</span>
+            <span class="amount mono" id="p-total">0 ₽</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Услуги</span>
+      <h2>Эвакуация любой сложности</h2>
+      <p>От городского седана до спецтехники — подберём машину и способ погрузки под конкретную ситуацию.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="ico">🚗</div>
+        <h4>Легковые автомобили</h4>
+        <p>Погрузка на платформу или частичная погрузка — сохраняем клиренс и подвеску.</p>
+        <div class="price-tag">от 4 000 ₽</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="ico">🚙</div>
+        <h4>Кроссоверы и джипы</h4>
+        <p>Усиленные платформы для тяжёлых и высоких автомобилей, в том числе с полным приводом.</p>
+        <div class="price-tag">от 5 000 ₽</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="ico">🏗️</div>
+        <h4>Манипулятор — седаны</h4>
+        <p>Погрузка манипулятором без буксировки, когда платформой не подъехать или машина не на ходу.</p>
+        <div class="price-tag">12 000 ₽</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="ico">🏗️</div>
+        <h4>Манипулятор — кроссоверы / джипы</h4>
+        <p>Тот же принцип погрузки для более тяжёлых и высоких автомобилей.</p>
+        <div class="price-tag">13 000 ₽</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="ico">🏗️</div>
+        <h4>Манипулятор — тяжёлые джипы</h4>
+        <p>Для крупных внедорожников и рамных джипов, где нужен усиленный манипулятор.</p>
+        <div class="price-tag">15 000 ₽</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="ico">🔓</div>
+        <h4>Заблокированное колесо</h4>
+        <p>Снимаем блокировку стояночного тормоза или колёсного блокиратора прямо на месте.</p>
+        <div class="price-tag">1 500 ₽</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process" class="process">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Порядок действий</span>
+      <h2>Что происходит после звонка</h2>
+      <p>Четыре шага от заявки до момента, когда машина стоит там, где нужно вам.</p>
+    </div>
+    <div class="process-list">
+      <div class="process-step reveal">
+        <div class="process-num">01</div>
+        <h4>Заявка</h4>
+        <p>Звонок, заявка на сайте или в мессенджере — диспетчер уточняет адрес и тип авто.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">02</div>
+        <h4>Выезд экипажа</h4>
+        <p>Ближайший эвакуатор выезжает в течение 5–10 минут, вы видите время прибытия.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">03</div>
+        <h4>Погрузка</h4>
+        <p>Водитель осматривает автомобиль, подбирает способ погрузки и надёжно фиксирует его.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">04</div>
+        <h4>Доставка</h4>
+        <p>Везём по указанному адресу — сервис, стоянку или домой, оплата по факту приезда.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="coverage-section" id="coverage">
+  <div class="wrap coverage-grid">
+    <div class="reveal">
+      <span class="section-tag">Зона выезда</span>
+      <h2 style="font-size:clamp(26px,3.2vw,36px); margin-bottom:14px;">Москва, МКАД и область — до 100 км</h2>
+      <p style="color:var(--text-dim); font-size:15px;">Экипажи распределены по городу и области, поэтому среднее время выезда почти не зависит от района. За МКАД считаем по фактическому расстоянию от границы города.</p>
+      <div class="coverage-tags">
+        <span>Все округа Москвы</span>
+        <span>Новая Москва</span>
+        <span>Химки · Мытищи · Балашиха</span>
+        <span>Одинцово · Красногорск</span>
+        <span>Подольск · Домодедово</span>
+        <span>Щёлково · Ногинск</span>
+        <span>По трассам М1–М11</span>
+      </div>
+    </div>
+    <div class="coverage-visual reveal">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <div class="ring r4"></div>
+      <div class="sweep"></div>
+      <div class="center-dot"></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Тарифы</span>
+      <h2>Прозрачная база расчёта</h2>
+      <p>Итоговая цена в калькуляторе выше уже учитывает эти тарифы и построенный маршрут.</p>
+    </div>
+    <div class="reveal" style="overflow-x:auto;">
+      <table class="pricing-table">
+        <thead>
+          <tr><th>Тип транспорта</th><th>Подача</th><th>За км</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Легковой автомобиль (эвакуатор)</td><td class="price">от 4 000 ₽</td><td class="price">100 ₽/км</td></tr>
+          <tr><td>Кроссовер / джип (эвакуатор)</td><td class="price">от 5 000 ₽</td><td class="price">100 ₽/км</td></tr>
+          <tr><td>Манипулятор — седан</td><td class="price">12 000 ₽</td><td class="price">150 ₽/км</td></tr>
+          <tr><td>Манипулятор — кроссовер / джип</td><td class="price">13 000 ₽</td><td class="price">150 ₽/км</td></tr>
+          <tr><td>Манипулятор — тяжёлый джип</td><td class="price">15 000 ₽</td><td class="price">150 ₽/км</td></tr>
+          <tr><td>Разблокировка колеса</td><td class="price">1 500 ₽</td><td class="price">—</td></tr>
+        </tbody>
+      </table>
+      <p class="pricing-note">Подача — фиксированная плата за выезд экипажа, километраж считается по фактическому маршруту от точки А до точки Б. Ожидание свыше 15 минут на месте — 300 ₽ за каждые следующие 15 минут.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Отзывы</span>
+      <h2>Что говорят те, кого уже забрали</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p>Заглох на МКАДе ночью, экипаж приехал за 20 минут, водитель сам всё аккуратно закатил на платформу.</p>
+        <div class="testi-who"><div class="testi-avatar">ИК</div><div><div class="testi-name">Игорь К.</div><div class="testi-loc">Москва, ЮАО</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p>Цена в приложении совпала с той, что назвали по приезде — до копейки. Это редкость для эвакуаторов.</p>
+        <div class="testi-who"><div class="testi-avatar">МС</div><div><div class="testi-name">Мария С.</div><div class="testi-loc">Химки</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p>Машина на АКПП, боялся за коробку — увезли на полной платформе, без буксировки. Всё цело.</p>
+        <div class="testi-who"><div class="testi-avatar">ДП</div><div><div class="testi-name">Дмитрий П.</div><div class="testi-loc">Одинцово</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="final-cta reveal">
+      <div class="eyebrow" style="justify-content:center;"><span class="beacon-dot"></span>Диспетчер отвечает круглосуточно</div>
+      <h2>Машина сломалась не вовремя.<br>Мы приедем вовремя.</h2>
+      <p>Рассчитайте стоимость на карте выше или позвоните — и мы уже выезжаем.</p>
+      <div class="hero-actions">
+        <a href="#calc" class="btn btn-primary">Рассчитать стоимость</a>
+        <a href="tel:+74951234567" class="btn btn-ghost">☎ +7 (495) 123-45-67</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="margin-bottom:14px;"><span class="beacon-dot"></span>Эвако<span style="color:var(--beacon)">Лайн</span></div>
+        <p style="max-width:260px;">Круглосуточная эвакуация автомобилей и мототехники по Москве и Московской области.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Разделы</h5>
+        <a href="#calc">Расчёт стоимости</a>
+        <a href="#services">Услуги</a>
+        <a href="#process">Как это работает</a>
+        <a href="#pricing">Тарифы</a>
+      </div>
+      <div class="footer-col">
+        <h5>Контакты</h5>
+        <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+        <a href="mailto:dispatch@evacoline.ru">dispatch@evacoline.ru</a>
+        <p>Москва, круглосуточно</p>
+      </div>
+      <div class="footer-col">
+        <h5>Реквизиты</h5>
+        <p>ИП Иванов И.И.</p>
+        <p>ИНН 770000000000</p>
+        <p>ОГРНИП 000000000000000</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ЭвакоЛайн. Все права защищены.</span>
+      <span>Карта маршрутов — Яндекс.Карты</span>
+    </div>
+  </div>
+</footer>
+
+<a href="tel:+74951234567" class="sticky-call" aria-label="Позвонить">☎</a>
+
+<script>
+  /* ====================================================================
+     ВСТАВЬТЕ СВОЙ БЕСПЛАТНЫЙ КЛЮЧ ЯНДЕКС.КАРТ СЮДА
+     Получить ключ: https://developer.tech.yandex.ru/services/3
+     Без ключа калькулятор работает в демо-режиме (ручной ввод км).
+  ==================================================================== */
+  const YANDEX_MAPS_API_KEY = "6e274c8e-a9ea-46dd-bae2-0ced537feaaa";
+
+  /* ---------------- scroll reveal ---------------- */
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  /* ---------------- mobile nav ---------------- */
+  document.querySelector('.menu-toggle').addEventListener('click', ()=>{
+    const nav = document.querySelector('.nav-links');
+    nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    nav.style.cssText += 'position:absolute; top:64px; left:0; right:0; background:#1b1f27; flex-direction:column; padding:20px 24px; border-bottom:1px solid #2e3542;';
+  });
+
+  /* ---------------- tariffs ---------------- */
+  const TARIFFS = {
+    evac: {
+      sedan: { label:'Легковой', base:4000, km:100 },
+      suv:   { label:'Кроссовер / джип', base:5000, km:100 },
+      heavy: null /* эвакуатором тяжёлые джипы не возим — только манипулятор */
+    },
+    manipulator: {
+      sedan: { label:'Легковой', base:12000, km:150 },
+      suv:   { label:'Кроссовер / джип', base:13000, km:150 },
+      heavy: { label:'Тяжёлый джип', base:15000, km:150 }
+    }
+  };
+  const WHEEL_LOCK_FEE = 1500;
+
+  let selectedService = 'evac';
+  let selectedCarType = 'sedan';
+
+  function refreshCarTypeAvailability(){
+    document.querySelectorAll('.car-type').forEach(el=>{
+      const type = el.dataset.type;
+      const available = !!TARIFFS[selectedService][type];
+      el.classList.toggle('disabled', !available);
+      if(!available && selectedCarType === type){
+        selectedCarType = 'sedan';
+        document.querySelectorAll('.car-type').forEach(c=>c.classList.remove('active'));
+        document.querySelector('.car-type[data-type="sedan"]').classList.add('active');
+      }
+    });
+  }
+
+  document.querySelectorAll('.service-btn').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      document.querySelectorAll('.service-btn').forEach(c=>c.classList.remove('active'));
+      el.classList.add('active');
+      selectedService = el.dataset.service;
+      refreshCarTypeAvailability();
+    });
+  });
+
+  document.querySelectorAll('.car-type').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      if(el.classList.contains('disabled')) return;
+      document.querySelectorAll('.car-type').forEach(c=>c.classList.remove('active'));
+      el.classList.add('active');
+      selectedCarType = el.dataset.type;
+    });
+  });
+
+  /* ---------------- animated number counter ---------------- */
+  function animateNumber(el, to, opts={}){
+    const dur = opts.duration || 700;
+    const suffix = opts.suffix || '';
+    const start = performance.now();
+    function frame(now){
+      const t = Math.min(1, (now-start)/dur);
+      const eased = 1 - Math.pow(1-t, 3);
+      const val = Math.round(to * eased);
+      el.textContent = val.toLocaleString('ru-RU') + suffix;
+      if(t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function showPriceResult(distanceKm, durationMin){
+    const overlay = document.getElementById('price-overlay');
+    const tariff = TARIFFS[selectedService][selectedCarType];
+    const wheelLock = document.getElementById('wheel-lock').checked;
+
+    const kmCost = Math.round(distanceKm * tariff.km);
+    let base = tariff.base + kmCost;
+    let breakdown = tariff.base.toLocaleString('ru-RU') + ' ₽ подача + ' + kmCost.toLocaleString('ru-RU') + ' ₽ (' + tariff.km + ' ₽/км)';
+
+    let total = base + (wheelLock ? WHEEL_LOCK_FEE : 0);
+
+    document.getElementById('p-dist').textContent = distanceKm.toFixed(1) + ' км';
+    document.getElementById('p-time').textContent = durationMin ? Math.round(durationMin) + ' мин' : '—';
+    document.getElementById('p-base').textContent = breakdown + (wheelLock ? ' + 1 500 ₽ блокировка колеса' : '');
+
+    overlay.classList.add('show');
+    const totalEl = document.getElementById('p-total');
+    animateNumber(totalEl, total, {suffix:' ₽', duration:900});
+  }
+
+  /* ---------------- Yandex Maps integration ---------------- */
+  let map, multiRoute, fromCoords=null, toCoords=null;
+  const mapFallback = document.getElementById('map-fallback');
+
+  function initFallbackMode(){
+    document.getElementById('map').style.display = 'none';
+    mapFallback.style.display = 'flex';
+  }
+
+  function loadYandexMaps(){
+    if(!YANDEX_MAPS_API_KEY || YANDEX_MAPS_API_KEY === "YOUR_API_KEY"){
+      initFallbackMode();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = `https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_MAPS_API_KEY}&lang=ru_RU&load=package.full`;
+    script.onload = () => { if(window.ymaps){ ymaps.ready(initMap); } else { initFallbackMode(); } };
+    script.onerror = initFallbackMode;
+    document.head.appendChild(script);
+    setTimeout(()=>{ if(!window.ymaps) initFallbackMode(); }, 6000);
+  }
+
+  function initMap(){
+    map = new ymaps.Map('map', {
+      center: [55.751244, 37.618423],
+      zoom: 10,
+      controls: ['zoomControl']
+    });
+    setupSuggest('from-input', 'from-suggest', (coords)=>{ fromCoords = coords; });
+    setupSuggest('to-input', 'to-suggest', (coords)=>{ toCoords = coords; });
+  }
+
+  function setupSuggest(inputId, listId, onSelect){
+    const input = document.getElementById(inputId);
+    const list = document.getElementById(listId);
+    let timer;
+    input.addEventListener('input', ()=>{
+      clearTimeout(timer);
+      const q = input.value.trim();
+      if(q.length < 3){ list.classList.remove('show'); return; }
+      timer = setTimeout(()=>{
+        ymaps.suggest(q, { results: 5, boundedBy: [[54.2,35.0],[57.0,40.5]] }).then(items=>{
+          list.innerHTML = '';
+          if(!items.length){ list.classList.remove('show'); return; }
+          items.forEach(item=>{
+            const row = document.createElement('div');
+            row.textContent = item.displayName;
+            row.addEventListener('click', ()=>{
+              input.value = item.displayName;
+              list.classList.remove('show');
+              ymaps.geocode(item.value).then(res=>{
+                const obj = res.geoObjects.get(0);
+                if(obj) onSelect(obj.geometry.getCoordinates());
+              });
+            });
+            list.appendChild(row);
+          });
+          list.classList.add('show');
+        }).catch(()=>list.classList.remove('show'));
+      }, 250);
+    });
+    document.addEventListener('click', (e)=>{
+      if(!list.contains(e.target) && e.target !== input) list.classList.remove('show');
+    });
+  }
+
+  function buildRoute(){
+    if(!fromCoords || !toCoords) return;
+    if(multiRoute) map.geoObjects.remove(multiRoute);
+    multiRoute = new ymaps.multiRouter.MultiRoute({
+      referencePoints: [fromCoords, toCoords],
+      params: { routingMode: 'auto' }
+    }, {
+      boundsAutoApply: true,
+      routeActiveStrokeColor: '#ffb020',
+      routeActiveStrokeWidth: 5,
+      wayPointStartIconColor: '#3ddc97',
+      wayPointFinishIconColor: '#ffb020'
+    });
+    map.geoObjects.add(multiRoute);
+    multiRoute.model.events.add('requestsuccess', ()=>{
+      const active = multiRoute.getActiveRoute();
+      if(active){
+        const distanceKm = active.properties.get('distance').value / 1000;
+        const durationMin = active.properties.get('duration').value / 60;
+        showPriceResult(distanceKm, durationMin);
+      }
+    });
+  }
+
+  document.getElementById('calc-btn').addEventListener('click', ()=>{
+    const fromVal = document.getElementById('from-input').value.trim();
+    const toVal = document.getElementById('to-input').value.trim();
+
+    if(mapFallback.style.display === 'flex'){
+      const manualKm = parseFloat(document.getElementById('manual-distance').value);
+      if(!manualKm || manualKm <= 0){
+        document.getElementById('manual-distance').focus();
+        document.getElementById('manual-distance').style.borderColor = '#ff7a45';
+        return;
+      }
+      showPriceResult(manualKm, manualKm * 2.1);
+      return;
+    }
+
+    if(!fromVal || !toVal){
+      [document.getElementById('from-input'), document.getElementById('to-input')].forEach(el=>{
+        if(!el.value.trim()){ el.style.borderColor = '#ff7a45'; setTimeout(()=>el.style.borderColor='', 1200); }
+      });
+      return;
+    }
+    if(fromCoords && toCoords){
+      buildRoute();
+    } else {
+      ymaps.geocode(fromVal).then(res1=>{
+        const obj1 = res1.geoObjects.get(0);
+        if(obj1) fromCoords = obj1.geometry.getCoordinates();
+        return ymaps.geocode(toVal);
+      }).then(res2=>{
+        const obj2 = res2.geoObjects.get(0);
+        if(obj2) toCoords = obj2.geometry.getCoordinates();
+        buildRoute();
+      });
+    }
+  });
+
+  loadYandexMaps();
+</script>
+
+</body>
+</html>
