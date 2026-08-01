@@ -294,6 +294,8 @@
 
   .calc-btn{width:100%; padding:15px; font-size:15px; margin-top:4px;}
   .calc-hint{font-size:12px; color:var(--text-dim-2); margin-top:12px; text-align:center;}
+  #calc-status.is-error{color:var(--beacon-2); font-weight:600;}
+  #calc-status.is-loading{color:var(--text-dim);}
 
   .calc-map-wrap{position:relative; background:var(--surface-3); min-height:520px;}
   #map{width:100%; height:100%; min-height:520px;}
@@ -623,6 +625,7 @@
         </label>
 
         <button class="btn btn-primary calc-btn" id="calc-btn">Рассчитать маршрут и цену</button>
+        <div class="calc-hint" id="calc-status" style="display:none;"></div>
       </div>
 
       <div class="calc-map-wrap">
@@ -1007,6 +1010,7 @@
     let timer;
     input.addEventListener('input', ()=>{
       clearTimeout(timer);
+      onSelect(null);
       const q = input.value.trim();
       if(q.length < 3){ list.classList.remove('show'); return; }
       timer = setTimeout(()=>{
@@ -1035,8 +1039,21 @@
     });
   }
 
+  const MOSCOW_REGION_BOUNDS = [[54.2,35.0],[57.0,40.5]];
+
+  function setCalcStatus(text, mode){
+    const el = document.getElementById('calc-status');
+    el.className = mode ? ('is-' + mode) : '';
+    el.textContent = text || '';
+    el.style.display = text ? 'block' : 'none';
+  }
+
   function buildRoute(){
-    if(!fromCoords || !toCoords) return;
+    if(!fromCoords || !toCoords){
+      setCalcStatus('Не получилось распознать один из адресов. Выберите вариант из списка подсказок или уточните адрес (укажите город).', 'error');
+      setCalcBtnLoading(false);
+      return;
+    }
     if(multiRoute) map.geoObjects.remove(multiRoute);
     multiRoute = new ymaps.multiRouter.MultiRoute({
       referencePoints: [fromCoords, toCoords],
@@ -1050,18 +1067,34 @@
     });
     map.geoObjects.add(multiRoute);
     multiRoute.model.events.add('requestsuccess', ()=>{
+      setCalcBtnLoading(false);
       const active = multiRoute.getActiveRoute();
       if(active){
+        setCalcStatus('', null);
         const distanceKm = active.properties.get('distance').value / 1000;
         const durationMin = active.properties.get('duration').value / 60;
         showPriceResult(distanceKm, durationMin);
+      } else {
+        setCalcStatus('Не удалось построить маршрут между этими точками. Попробуйте указать более точный адрес.', 'error');
       }
     });
+    multiRoute.model.events.add('requestfail', ()=>{
+      setCalcBtnLoading(false);
+      setCalcStatus('Не удалось построить маршрут. Проверьте адреса и попробуйте снова.', 'error');
+    });
+  }
+
+  function setCalcBtnLoading(isLoading){
+    const btn = document.getElementById('calc-btn');
+    btn.disabled = isLoading;
+    btn.textContent = isLoading ? 'Считаем маршрут…' : 'Рассчитать маршрут и цену';
+    btn.style.opacity = isLoading ? '.7' : '1';
   }
 
   document.getElementById('calc-btn').addEventListener('click', ()=>{
     const fromVal = document.getElementById('from-input').value.trim();
     const toVal = document.getElementById('to-input').value.trim();
+    setCalcStatus('', null);
 
     if(mapFallback.style.display === 'flex'){
       const manualKm = parseFloat(document.getElementById('manual-distance').value);
@@ -1078,21 +1111,35 @@
       [document.getElementById('from-input'), document.getElementById('to-input')].forEach(el=>{
         if(!el.value.trim()){ el.style.borderColor = '#ff7a45'; setTimeout(()=>el.style.borderColor='', 1200); }
       });
+      setCalcStatus('Укажите оба адреса — откуда забрать и куда доставить.', 'error');
       return;
     }
+
     if(fromCoords && toCoords){
       buildRoute();
-    } else {
-      ymaps.geocode(fromVal).then(res1=>{
-        const obj1 = res1.geoObjects.get(0);
-        if(obj1) fromCoords = obj1.geometry.getCoordinates();
-        return ymaps.geocode(toVal);
-      }).then(res2=>{
-        const obj2 = res2.geoObjects.get(0);
-        if(obj2) toCoords = obj2.geometry.getCoordinates();
-        buildRoute();
-      });
+      return;
     }
+
+    setCalcBtnLoading(true);
+    setCalcStatus('Ищем адреса на карте…', 'loading');
+
+    ymaps.geocode(fromVal, { boundedBy: MOSCOW_REGION_BOUNDS, strictBounds: false, results: 1 })
+      .then(res1=>{
+        const obj1 = res1.geoObjects.get(0);
+        if(!obj1) throw new Error('from-not-found');
+        fromCoords = obj1.geometry.getCoordinates();
+        return ymaps.geocode(toVal, { boundedBy: MOSCOW_REGION_BOUNDS, strictBounds: false, results: 1 });
+      })
+      .then(res2=>{
+        const obj2 = res2.geoObjects.get(0);
+        if(!obj2) throw new Error('to-not-found');
+        toCoords = obj2.geometry.getCoordinates();
+        buildRoute();
+      })
+      .catch(()=>{
+        setCalcBtnLoading(false);
+        setCalcStatus('Не смогли найти один из адресов. Начните вводить адрес заново и выберите точный вариант из подсказок.', 'error');
+      });
   });
 
   loadYandexMaps();
