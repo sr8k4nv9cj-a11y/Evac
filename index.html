@@ -249,6 +249,25 @@
   .field .dot-from{background:var(--route);}
   .field .dot-to{background:var(--beacon);}
   .field.with-dot input{padding-left:32px; padding-right:42px;}
+  .map-instruction{
+    background:rgba(61,220,151,.06);
+    border:1px solid rgba(61,220,151,.35);
+    border-radius:14px;
+    padding:16px 16px 14px;
+    margin-bottom:22px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .map-instruction-step{
+    display:flex; align-items:flex-start; gap:10px;
+    font-size:13px; color:var(--text-dim); line-height:1.4;
+  }
+  .map-instruction-step b{color:var(--text); font-weight:700;}
+  .map-instruction-num{
+    flex-shrink:0; width:20px; height:20px; border-radius:50%;
+    background:var(--route); color:#0c1a14;
+    font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
   .pin-btn{
     position:absolute; right:6px; top:30px; width:34px; height:34px;
     border-radius:9px; border:1px solid var(--line); background:var(--surface);
@@ -593,12 +612,27 @@
     <div class="calc-grid reveal">
       <div class="calc-form">
         <h3>Маршрут эвакуации</h3>
-        <div class="sub">Начните вводить адрес — подскажем варианты</div>
+        <div class="sub">Самый точный способ — отметить точки прямо на карте</div>
+
+        <div class="map-instruction">
+          <div class="map-instruction-step">
+            <span class="map-instruction-num">1</span>
+            <span>Нажмите <b>📍 «Откуда забрать»</b> и кликните место на карте, где стоит машина</span>
+          </div>
+          <div class="map-instruction-step">
+            <span class="map-instruction-num">2</span>
+            <span>Нажмите <b>📍 «Куда доставить»</b> и кликните нужную точку назначения</span>
+          </div>
+          <div class="map-instruction-step">
+            <span class="map-instruction-num">3</span>
+            <span>Нажмите «Рассчитать» — цена появится сразу</span>
+          </div>
+        </div>
 
         <div class="field with-dot">
           <label>Откуда забрать</label>
           <span class="dot-from"></span>
-          <input type="text" id="from-input" placeholder="Например, МКАД 47 км" autocomplete="off">
+          <input type="text" id="from-input" placeholder="Нажмите 📍 →" autocomplete="off">
           <button type="button" class="pin-btn" id="from-pin-btn" title="Указать точку на карте">📍</button>
           <div class="suggest-list" id="from-suggest"></div>
         </div>
@@ -606,11 +640,11 @@
         <div class="field with-dot">
           <label>Куда доставить</label>
           <span class="dot-to"></span>
-          <input type="text" id="to-input" placeholder="Например, ул. Автозаводская, 5" autocomplete="off">
+          <input type="text" id="to-input" placeholder="Нажмите 📍 →" autocomplete="off">
           <button type="button" class="pin-btn" id="to-pin-btn" title="Указать точку на карте">📍</button>
           <div class="suggest-list" id="to-suggest"></div>
         </div>
-        <div class="calc-hint" style="text-align:left; margin-top:-8px; margin-bottom:16px;">Не находится адрес? Нажмите 📍 у поля и кликните нужную точку прямо на карте.</div>
+        <div class="calc-hint" style="text-align:left; margin-top:-8px; margin-bottom:16px;">Знаете точный адрес? Нажмите на поле, чтобы ввести его текстом вместо клика на карте.</div>
 
         <div class="field">
           <label>Способ эвакуации</label>
@@ -662,6 +696,7 @@
             <span class="label">Итого</span>
             <span class="amount mono" id="p-total">0 ₽</span>
           </div>
+          <div style="font-size:11px; color:var(--text-dim-2); margin-top:10px; text-align:center;">Расстояние оценочное (по прямой с поправкой на дороги). Точную цену подтвердит диспетчер.</div>
         </div>
       </div>
     </div>
@@ -1131,40 +1166,80 @@
     el.style.display = text ? 'block' : 'none';
   }
 
-  function buildRoute(){
+  const YANDEX_ROUTER_API_KEY = "1c10c68d-c39f-400a-9774-633653bb81de";
+
+  /* Резервный коэффициент на случай, если Router API недоступен (лимит, сеть и т.п.) —
+     переводит расстояние "по прямой" в примерное расстояние по дорогам. */
+  const ROAD_FACTOR = 1.35;
+  const AVERAGE_SPEED_KMH = 38;
+
+  function haversineKm(a, b){
+    const R = 6371;
+    const toRad = deg => deg * Math.PI / 180;
+    const dLat = toRad(b[0] - a[0]);
+    const dLon = toRad(b[1] - a[1]);
+    const lat1 = toRad(a[0]);
+    const lat2 = toRad(b[0]);
+    const h = Math.sin(dLat/2)**2 + Math.cos(lat1)*Math.cos(lat2)*Math.sin(dLon/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1-h));
+  }
+
+  async function fetchRouteViaHttp(from, to){
+    const waypoints = from[0] + ',' + from[1] + '|' + to[0] + ',' + to[1];
+    const url = 'https://api.routing.yandex.net/v2/route?apikey=' + encodeURIComponent(YANDEX_ROUTER_API_KEY)
+      + '&waypoints=' + encodeURIComponent(waypoints) + '&mode=driving';
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('router-http-error');
+    const data = await res.json();
+    const legs = data.route && data.route.legs;
+    if(!legs || !legs.length) throw new Error('no-route');
+    let totalLength = 0, totalDuration = 0, points = [];
+    legs.forEach(leg=>{
+      if(leg.status !== 'OK') throw new Error('leg-failed');
+      (leg.steps || []).forEach(step=>{
+        totalLength += step.length || 0;
+        totalDuration += step.duration || 0;
+        if(step.polyline && step.polyline.points) points = points.concat(step.polyline.points);
+      });
+    });
+    return { distanceKm: totalLength / 1000, durationMin: totalDuration / 60, points };
+  }
+
+  let routeLine = null;
+
+  async function buildRoute(){
     if(!fromCoords || !toCoords){
       setCalcStatus('Не получилось распознать один из адресов. Выберите вариант из списка подсказок или уточните адрес (укажите город).', 'error');
       setCalcBtnLoading(false);
       return;
     }
-    if(multiRoute) map.geoObjects.remove(multiRoute);
-    multiRoute = new ymaps.multiRouter.MultiRoute({
-      referencePoints: [fromCoords, toCoords],
-      params: { routingMode: 'auto' }
-    }, {
-      boundsAutoApply: true,
-      routeActiveStrokeColor: '#ffb020',
-      routeActiveStrokeWidth: 5,
-      wayPointStartIconColor: '#3ddc97',
-      wayPointFinishIconColor: '#ffb020'
+
+    let distanceKm, durationMin, linePoints;
+
+    try{
+      const routed = await fetchRouteViaHttp(fromCoords, toCoords);
+      distanceKm = routed.distanceKm;
+      durationMin = routed.durationMin;
+      linePoints = routed.points && routed.points.length ? routed.points : [fromCoords, toCoords];
+    } catch(err){
+      const straightKm = haversineKm(fromCoords, toCoords);
+      distanceKm = straightKm * ROAD_FACTOR;
+      durationMin = (distanceKm / AVERAGE_SPEED_KMH) * 60;
+      linePoints = [fromCoords, toCoords];
+    }
+
+    if(routeLine) map.geoObjects.remove(routeLine);
+    routeLine = new ymaps.Polyline(linePoints, {}, {
+      strokeColor: '#ffb020',
+      strokeWidth: 4,
+      strokeStyle: linePoints.length > 2 ? 'solid' : 'shortdash'
     });
-    map.geoObjects.add(multiRoute);
-    multiRoute.model.events.add('requestsuccess', ()=>{
-      setCalcBtnLoading(false);
-      const active = multiRoute.getActiveRoute();
-      if(active){
-        setCalcStatus('', null);
-        const distanceKm = active.properties.get('distance').value / 1000;
-        const durationMin = active.properties.get('duration').value / 60;
-        showPriceResult(distanceKm, durationMin);
-      } else {
-        setCalcStatus('Не удалось построить маршрут между этими точками. Попробуйте указать более точный адрес.', 'error');
-      }
-    });
-    multiRoute.model.events.add('requestfail', ()=>{
-      setCalcBtnLoading(false);
-      setCalcStatus('Не удалось построить маршрут. Проверьте адреса и попробуйте снова.', 'error');
-    });
+    map.geoObjects.add(routeLine);
+    map.setBounds(routeLine.geometry.getBounds(), { checkZoomRange: true, zoomMargin: 60 });
+
+    setCalcBtnLoading(false);
+    setCalcStatus('', null);
+    showPriceResult(distanceKm, durationMin);
   }
 
   function setCalcBtnLoading(isLoading){
@@ -1199,6 +1274,8 @@
     }
 
     if(fromCoords && toCoords){
+      setCalcBtnLoading(true);
+      setCalcStatus('Считаем маршрут…', 'loading');
       buildRoute();
       return;
     }
