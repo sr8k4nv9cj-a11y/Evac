@@ -248,7 +248,15 @@
   }
   .field .dot-from{background:var(--route);}
   .field .dot-to{background:var(--beacon);}
-  .field.with-dot input{padding-left:32px;}
+  .field.with-dot input{padding-left:32px; padding-right:42px;}
+  .pin-btn{
+    position:absolute; right:6px; top:30px; width:34px; height:34px;
+    border-radius:9px; border:1px solid var(--line); background:var(--surface);
+    font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:all .18s;
+  }
+  .pin-btn:hover{border-color:var(--beacon);}
+  .pin-btn.armed{border-color:var(--route); background:rgba(61,220,151,.15); animation:beaconpulse 1.2s ease-out infinite;}
   .suggest-list{
     position:absolute; top:calc(100% + 4px); left:0; right:0; z-index:20;
     background:var(--surface-3); border:1px solid var(--line); border-radius:12px;
@@ -591,6 +599,7 @@
           <label>Откуда забрать</label>
           <span class="dot-from"></span>
           <input type="text" id="from-input" placeholder="Например, МКАД 47 км" autocomplete="off">
+          <button type="button" class="pin-btn" id="from-pin-btn" title="Указать точку на карте">📍</button>
           <div class="suggest-list" id="from-suggest"></div>
         </div>
 
@@ -598,8 +607,10 @@
           <label>Куда доставить</label>
           <span class="dot-to"></span>
           <input type="text" id="to-input" placeholder="Например, ул. Автозаводская, 5" autocomplete="off">
+          <button type="button" class="pin-btn" id="to-pin-btn" title="Указать точку на карте">📍</button>
           <div class="suggest-list" id="to-suggest"></div>
         </div>
+        <div class="calc-hint" style="text-align:left; margin-top:-8px; margin-bottom:16px;">Не находится адрес? Нажмите 📍 у поля и кликните нужную точку прямо на карте.</div>
 
         <div class="field">
           <label>Способ эвакуации</label>
@@ -868,11 +879,12 @@
 
 <script>
   /* ====================================================================
-     ВСТАВЬТЕ СВОЙ БЕСПЛАТНЫЙ КЛЮЧ ЯНДЕКС.КАРТ СЮДА
-     Получить ключ: https://developer.tech.yandex.ru/services/3
-     Без ключа калькулятор работает в демо-режиме (ручной ввод км).
+     КЛЮЧИ ЯНДЕКС.КАРТ
+     С мая 2026 Яндекс разделил JavaScript API (карта) и API Геокодера
+     (поиск адреса по тексту) — это разные ключи.
   ==================================================================== */
   const YANDEX_MAPS_API_KEY = "6e274c8e-a9ea-46dd-bae2-0ced537feaaa";
+  const YANDEX_GEOCODER_API_KEY = "7d5e517c-d0e4-4179-8963-229bfdeabaab";
 
   /* ---------------- scroll reveal ---------------- */
   const revealEls = document.querySelectorAll('.reveal');
@@ -974,6 +986,8 @@
 
   /* ---------------- Yandex Maps integration ---------------- */
   let map, multiRoute, fromCoords=null, toCoords=null;
+  let armedTarget = null;
+  let fromPlacemark = null, toPlacemark = null;
   const mapFallback = document.getElementById('map-fallback');
 
   function initFallbackMode(){
@@ -1002,6 +1016,57 @@
     });
     setupSuggest('from-input', 'from-suggest', (coords)=>{ fromCoords = coords; });
     setupSuggest('to-input', 'to-suggest', (coords)=>{ toCoords = coords; });
+    setupMapPin('from-pin-btn', 'from-input', 'from');
+    setupMapPin('to-pin-btn', 'to-input', 'to');
+    map.events.add('click', handleMapClick);
+  }
+
+  function setupMapPin(btnId, inputId, target){
+    document.getElementById(btnId).addEventListener('click', ()=>{
+      document.querySelectorAll('.pin-btn').forEach(b=>b.classList.remove('armed'));
+      if(armedTarget === target){
+        armedTarget = null;
+      } else {
+        armedTarget = target;
+        document.getElementById(btnId).classList.add('armed');
+        setCalcStatus('Кликните нужную точку на карте.', 'loading');
+      }
+    });
+  }
+
+  function handleMapClick(e){
+    if(!armedTarget) return;
+    const coords = e.get('coords');
+    const label = 'Точка на карте (' + coords[0].toFixed(4) + ', ' + coords[1].toFixed(4) + ')';
+    if(armedTarget === 'from'){
+      fromCoords = coords;
+      document.getElementById('from-input').value = label;
+      if(fromPlacemark) map.geoObjects.remove(fromPlacemark);
+      fromPlacemark = new ymaps.Placemark(coords, {}, { preset: 'islands#greenDotIcon' });
+      map.geoObjects.add(fromPlacemark);
+    } else {
+      toCoords = coords;
+      document.getElementById('to-input').value = label;
+      if(toPlacemark) map.geoObjects.remove(toPlacemark);
+      toPlacemark = new ymaps.Placemark(coords, {}, { preset: 'islands#orangeDotIcon' });
+      map.geoObjects.add(toPlacemark);
+    }
+    document.querySelectorAll('.pin-btn').forEach(b=>b.classList.remove('armed'));
+    armedTarget = null;
+    setCalcStatus('', null);
+  }
+
+  const YANDEX_SUGGEST_API_KEY = "d4126f42-066a-4e1f-99ab-1a7d6707c3ad";
+
+  async function suggestViaHttp(query){
+    const url = 'https://suggest-maps.yandex.ru/v1/suggest?apikey=' + encodeURIComponent(YANDEX_SUGGEST_API_KEY)
+      + '&text=' + encodeURIComponent(query)
+      + '&bbox=' + encodeURIComponent(GEOCODER_BBOX)
+      + '&results=5&print_address=1';
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('suggest-http-error');
+    const data = await res.json();
+    return data.results || [];
   }
 
   function setupSuggest(inputId, listId, onSelect){
@@ -1014,19 +1079,22 @@
       const q = input.value.trim();
       if(q.length < 3){ list.classList.remove('show'); return; }
       timer = setTimeout(()=>{
-        ymaps.suggest(q, { results: 5, boundedBy: [[54.2,35.0],[57.0,40.5]] }).then(items=>{
+        suggestViaHttp(q).then(items=>{
           list.innerHTML = '';
           if(!items.length){ list.classList.remove('show'); return; }
           items.forEach(item=>{
+            const title = (item.title && item.title.text) || '';
+            const subtitle = (item.subtitle && item.subtitle.text) || '';
+            const fullText = subtitle ? (title + ', ' + subtitle) : title;
             const row = document.createElement('div');
-            row.textContent = item.displayName;
-            row.addEventListener('click', ()=>{
-              input.value = item.displayName;
+            row.textContent = fullText;
+            row.addEventListener('click', async ()=>{
+              input.value = fullText;
               list.classList.remove('show');
-              ymaps.geocode(item.value).then(res=>{
-                const obj = res.geoObjects.get(0);
-                if(obj) onSelect(obj.geometry.getCoordinates());
-              });
+              try{
+                const coords = await geocodeViaHttp(fullText);
+                if(coords) onSelect(coords);
+              } catch(e){ /* если геокодер не смог уточнить точку — просто оставляем поле как текст */ }
             });
             list.appendChild(row);
           });
@@ -1039,7 +1107,22 @@
     });
   }
 
-  const MOSCOW_REGION_BOUNDS = [[54.2,35.0],[57.0,40.5]];
+  /* bbox for HTTP geocoder is "lon1,lat1~lon2,lat2" (opposite corners) */
+  const GEOCODER_BBOX = '35.0,54.2~40.5,57.0';
+
+  async function geocodeViaHttp(query){
+    const url = 'https://geocode-maps.yandex.ru/1.x/?apikey=' + encodeURIComponent(YANDEX_GEOCODER_API_KEY)
+      + '&format=json&geocode=' + encodeURIComponent(query)
+      + '&bbox=' + encodeURIComponent(GEOCODER_BBOX) + '&rspn=1&results=1';
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('geocoder-http-error');
+    const data = await res.json();
+    const members = data.response.GeoObjectCollection.featureMember;
+    if(!members || !members.length) return null;
+    const pos = members[0].GeoObject.Point.pos; // "lon lat"
+    const [lon, lat] = pos.split(' ').map(Number);
+    return [lat, lon];
+  }
 
   function setCalcStatus(text, mode){
     const el = document.getElementById('calc-status');
@@ -1123,23 +1206,24 @@
     setCalcBtnLoading(true);
     setCalcStatus('Ищем адреса на карте…', 'loading');
 
-    ymaps.geocode(fromVal, { boundedBy: MOSCOW_REGION_BOUNDS, strictBounds: false, results: 1 })
-      .then(res1=>{
-        const obj1 = res1.geoObjects.get(0);
-        if(!obj1) throw new Error('from-not-found');
-        fromCoords = obj1.geometry.getCoordinates();
-        return ymaps.geocode(toVal, { boundedBy: MOSCOW_REGION_BOUNDS, strictBounds: false, results: 1 });
-      })
-      .then(res2=>{
-        const obj2 = res2.geoObjects.get(0);
-        if(!obj2) throw new Error('to-not-found');
-        toCoords = obj2.geometry.getCoordinates();
+    (async ()=>{
+      try{
+        if(!fromCoords){
+          const found = await geocodeViaHttp(fromVal);
+          if(!found) throw new Error('from-not-found');
+          fromCoords = found;
+        }
+        if(!toCoords){
+          const found = await geocodeViaHttp(toVal);
+          if(!found) throw new Error('to-not-found');
+          toCoords = found;
+        }
         buildRoute();
-      })
-      .catch(()=>{
+      } catch(err){
         setCalcBtnLoading(false);
-        setCalcStatus('Не смогли найти один из адресов. Начните вводить адрес заново и выберите точный вариант из подсказок.', 'error');
-      });
+        setCalcStatus('Не смогли найти адрес автоматически. Нажмите 📍 у поля и отметьте точку прямо на карте.', 'error');
+      }
+    })();
   });
 
   loadYandexMaps();
