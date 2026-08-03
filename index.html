@@ -116,9 +116,22 @@
     transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
   }
   .btn-primary{
+    position:relative; overflow:hidden;
     background:linear-gradient(135deg, var(--beacon), var(--beacon-2));
     color:#181206;
     box-shadow:0 8px 24px rgba(255,122,69,.25);
+  }
+  .btn-primary::after{
+    content:'';
+    position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,.55), transparent);
+    transform:skewX(-20deg);
+    animation:shimmerSweep 3.2s ease-in-out infinite;
+  }
+  @keyframes shimmerSweep{
+    0%{left:-60%;}
+    35%{left:130%;}
+    100%{left:130%;}
   }
   .btn-primary:hover{transform:translateY(-2px); box-shadow:0 12px 30px rgba(255,122,69,.4);}
   .btn-primary:active{transform:translateY(0);}
@@ -183,6 +196,23 @@
     padding:26px;
     position:relative;
     box-shadow:0 30px 60px rgba(0,0,0,.35);
+  }
+  .beacon-3d-wrap{
+    width:100%; height:190px;
+    margin-bottom:18px;
+    border-radius:16px;
+    background:radial-gradient(ellipse at 50% 65%, rgba(255,176,32,.14), transparent 70%);
+    position:relative;
+    overflow:hidden;
+  }
+  .beacon-3d-wrap canvas{ width:100%; height:100%; display:block; touch-action:none; }
+  .beacon-3d-fallback{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:40px; animation:beaconIconPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes beaconIconPulse{
+    0%, 100%{ opacity:.5; transform:scale(.92); }
+    50%{ opacity:1; transform:scale(1.08); }
   }
   .dispatch-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
   .dispatch-head .title{font-family:'Unbounded', sans-serif; font-size:14px; font-weight:600;}
@@ -321,8 +351,32 @@
 
   .calc-btn{width:100%; padding:15px; font-size:15px; margin-top:4px;}
   .calc-hint{font-size:12px; color:var(--text-dim-2); margin-top:12px; text-align:center;}
-  #calc-status.is-error{color:var(--beacon-2); font-weight:600;}
-  #calc-status.is-loading{color:var(--text-dim);}
+  #calc-status{
+    display:flex; align-items:center; gap:9px;
+    padding:11px 14px; border-radius:12px;
+    font-size:12.5px; line-height:1.4; text-align:left !important;
+    opacity:0; transform:translateY(-6px);
+    animation:toastIn .32s cubic-bezier(.2,.9,.3,1.2) forwards;
+  }
+  #calc-status::before{ flex-shrink:0; font-size:14px; }
+  #calc-status.is-error{ color:#ffcaa8; background:rgba(255,122,69,.12); border:1px solid rgba(255,122,69,.35); font-weight:600; }
+  #calc-status.is-error::before{ content:'⚠️'; }
+  #calc-status.is-loading{ color:var(--text-dim); background:rgba(255,176,32,.08); border:1px solid rgba(255,176,32,.25); }
+  #calc-status.is-loading::before{ content:'⏳'; animation:spin 1.4s linear infinite; display:inline-block; }
+  @keyframes toastIn{
+    from{ opacity:0; transform:translateY(-6px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+  .btn-loading-dot{
+    display:inline-block; width:9px; height:9px; border-radius:50%;
+    background:#181206; margin-right:2px; vertical-align:middle;
+    animation:btnDotPulse .8s ease-in-out infinite;
+  }
+  @keyframes btnDotPulse{
+    0%, 100%{ opacity:.35; transform:scale(.8); }
+    50%{ opacity:1; transform:scale(1.15); }
+  }
 
   .calc-map-wrap{position:relative; background:var(--surface-3); min-height:520px;}
   #map{width:100%; height:100%; min-height:520px;}
@@ -591,6 +645,10 @@
     </div>
 
     <div class="dispatch-card reveal">
+      <div id="beacon-3d-wrap" class="beacon-3d-wrap">
+        <canvas id="beacon-3d-canvas"></canvas>
+        <div class="beacon-3d-fallback" id="beacon-3d-fallback" style="display:none;">🚨</div>
+      </div>
       <div class="dispatch-head">
         <div class="title">Live-диспетчер</div>
         <span class="status-pill"><span class="beacon-dot"></span>онлайн: <b>24</b></span>
@@ -915,7 +973,7 @@
       <div class="footer-col">
         <h5>Контакты</h5>
         <a href="tel:+79035054089">+7 903 505-40-89</a>
-        <a href="mailto:dispatch@evakmsk.ru">dispatch@evakmsk.ru</a>
+        <a href="mailto:spinovoi97@mail.ru">spinovoi97@mail.ru</a>
         <p>Москва, круглосуточно</p>
       </div>
     </div>
@@ -1033,6 +1091,7 @@
     overlay.classList.add('show');
     const totalEl = document.getElementById('p-total');
     animateNumber(totalEl, total, {suffix:' ₽', duration:900});
+    trackGoal('calc_success', { price: total, service: selectedService, carType: selectedCarType });
   }
 
   /* ---------------- Yandex Maps integration ---------------- */
@@ -1177,9 +1236,17 @@
 
   function setCalcStatus(text, mode){
     const el = document.getElementById('calc-status');
+    if(!text){
+      el.style.display = 'none';
+      el.className = '';
+      el.textContent = '';
+      return;
+    }
+    el.style.display = 'none';
+    void el.offsetWidth; /* restart entrance animation even for repeated messages */
     el.className = mode ? ('is-' + mode) : '';
-    el.textContent = text || '';
-    el.style.display = text ? 'block' : 'none';
+    el.textContent = text;
+    el.style.display = 'flex';
   }
 
   const YANDEX_ROUTER_API_KEY = "1c10c68d-c39f-400a-9774-633653bb81de";
@@ -1261,11 +1328,14 @@
   function setCalcBtnLoading(isLoading){
     const btn = document.getElementById('calc-btn');
     btn.disabled = isLoading;
-    btn.textContent = isLoading ? 'Считаем маршрут…' : 'Рассчитать маршрут и цену';
-    btn.style.opacity = isLoading ? '.7' : '1';
+    btn.innerHTML = isLoading
+      ? '<span class="btn-loading-dot"></span> Считаем маршрут…'
+      : 'Рассчитать маршрут и цену';
+    btn.style.opacity = isLoading ? '.85' : '1';
   }
 
   document.getElementById('calc-btn').addEventListener('click', ()=>{
+    trackGoal('calc_click');
     const fromVal = document.getElementById('from-input').value.trim();
     const toVal = document.getElementById('to-input').value.trim();
     setCalcStatus('', null);
@@ -1319,6 +1389,172 @@
     })();
   });
 
+  /* ---------------- 3D beacon scene (Three.js) ---------------- */
+  function initBeacon3D(){
+    const wrap = document.getElementById('beacon-3d-wrap');
+    const canvas = document.getElementById('beacon-3d-canvas');
+    const fallback = document.getElementById('beacon-3d-fallback');
+    if(!wrap || !canvas) return;
+
+    if(typeof THREE === 'undefined'){
+      canvas.style.display = 'none';
+      fallback.style.display = 'flex';
+      return;
+    }
+
+    try{
+      const width = wrap.clientWidth, height = wrap.clientHeight;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+      camera.position.set(0, 1.5, 4.4);
+      camera.lookAt(0, 0.5, 0);
+
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(width, height, false);
+
+      /* lighting */
+      scene.add(new THREE.AmbientLight(0x40454f, 1.1));
+      const keyLight = new THREE.PointLight(0xffb020, 2.2, 12);
+      keyLight.position.set(1.5, 3, 2.5);
+      scene.add(keyLight);
+      const rimLight = new THREE.PointLight(0x3ddc97, 0.6, 10);
+      rimLight.position.set(-2, 1, -2);
+      scene.add(rimLight);
+
+      const group = new THREE.Group();
+      scene.add(group);
+
+      /* base housing */
+      const base = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.95, 1.1, 0.4, 28),
+        new THREE.MeshPhongMaterial({ color: 0x232936, shininess: 60, specular: 0x555555 })
+      );
+      base.position.y = 0;
+      group.add(base);
+
+      const collar = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.78, 0.9, 0.16, 28),
+        new THREE.MeshPhongMaterial({ color: 0x2b3241, shininess: 40 })
+      );
+      collar.position.y = 0.28;
+      group.add(collar);
+
+      /* glowing dome */
+      const dome = new THREE.Mesh(
+        new THREE.SphereGeometry(0.78, 32, 20, 0, Math.PI * 2, 0, Math.PI / 1.9),
+        new THREE.MeshPhongMaterial({
+          color: 0xffb020, emissive: 0xff7a45, emissiveIntensity: 0.55,
+          transparent: true, opacity: 0.5, shininess: 90, side: THREE.DoubleSide
+        })
+      );
+      dome.position.y = 0.34;
+      group.add(dome);
+
+      /* rotating light sweep inside the dome */
+      const sweepPivot = new THREE.Group();
+      sweepPivot.position.y = 0.34;
+      group.add(sweepPivot);
+
+      const beamMaterial = new THREE.MeshBasicMaterial({ color: 0xffe9b0, transparent: true, opacity: 0.85 });
+      [0, Math.PI].forEach(angle=>{
+        const beam = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.7, 12, 1, true), beamMaterial);
+        beam.rotation.z = Math.PI / 2;
+        beam.position.set(Math.cos(angle) * 0.42, 0, Math.sin(angle) * 0.42);
+        beam.rotation.y = angle;
+        sweepPivot.add(beam);
+      });
+
+      const bulb = new THREE.Mesh(
+        new THREE.SphereGeometry(0.14, 16, 16),
+        new THREE.MeshBasicMaterial({ color: 0xfff2d0 })
+      );
+      bulb.position.y = 0.34;
+      group.add(bulb);
+      const bulbLight = new THREE.PointLight(0xffb020, 1.4, 4);
+      bulbLight.position.y = 0.34;
+      group.add(bulbLight);
+
+      /* soft ground glow */
+      const floor = new THREE.Mesh(
+        new THREE.CircleGeometry(1.7, 32),
+        new THREE.MeshBasicMaterial({ color: 0xffb020, transparent: true, opacity: 0.08 })
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.position.y = -0.22;
+      scene.add(floor);
+
+      group.position.y = -0.35;
+
+      let frameId;
+      function animate(t){
+        frameId = requestAnimationFrame(animate);
+        group.rotation.y += 0.006;
+        sweepPivot.rotation.y += 0.045;
+        const pulse = 0.55 + Math.sin(t * 0.003) * 0.25;
+        dome.material.emissiveIntensity = pulse;
+        bulbLight.intensity = 1.1 + Math.sin(t * 0.003) * 0.6;
+        renderer.render(scene, camera);
+      }
+      requestAnimationFrame(animate);
+
+      function handleResize(){
+        const w = wrap.clientWidth, h = wrap.clientHeight;
+        if(!w || !h) return;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h, false);
+      }
+      window.addEventListener('resize', handleResize);
+
+      /* pause rendering when scrolled out of view to save battery */
+      const io3d = new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){ if(!frameId) requestAnimationFrame(animate); }
+          else { cancelAnimationFrame(frameId); frameId = null; }
+        });
+      }, { threshold: 0.05 });
+      io3d.observe(wrap);
+
+    } catch(err){
+      canvas.style.display = 'none';
+      fallback.style.display = 'flex';
+    }
+  }
+
+  function loadThreeJs(){
+    if(typeof THREE !== 'undefined'){ initBeacon3D(); return; }
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+    script.onload = initBeacon3D;
+    script.onerror = ()=>{
+      const fallback = document.getElementById('beacon-3d-fallback');
+      const canvas = document.getElementById('beacon-3d-canvas');
+      if(canvas) canvas.style.display = 'none';
+      if(fallback) fallback.style.display = 'flex';
+    };
+    document.head.appendChild(script);
+  }
+
+  /* ---------------- Метрика: цели ---------------- */
+  const YM_COUNTER_ID = 111240548;
+  function trackGoal(goalId, params){
+    if(typeof ym === 'function'){
+      try{ ym(YM_COUNTER_ID, 'reachGoal', goalId, params || {}); }catch(e){}
+    }
+  }
+  /* клик по любой ссылке-звонку (шапка, hero, футер, плавающая кнопка, кнопка после расчёта) */
+  document.addEventListener('click', (e)=>{
+    const link = e.target.closest('a[href^="tel:"]');
+    if(!link) return;
+    if(link.id === 'call-cta'){
+      trackGoal('call_after_calc');
+    } else {
+      trackGoal('phone_click');
+    }
+  });
+
+  loadThreeJs();
   loadYandexMaps();
 </script>
 
