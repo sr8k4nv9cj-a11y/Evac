@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Host: evacmsc.ru
+Sitemap: https://evacmsc.ru/sitemap.xml
