@@ -56,6 +56,40 @@
 }
 </script>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Сколько ждать эвакуатор ночью в Москве?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Мы работаем круглосуточно, без выходных. Ночью среднее время подачи обычно 20–40 минут в зависимости от района, точное время диспетчер называет сразу при звонке." }
+    },
+    {
+      "@type": "Question",
+      "name": "Что делать, если у машины заблокировано колесо?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Наш экипаж снимает блокировку на месте — это отдельная услуга стоимостью 1500 рублей, добавляется к стоимости эвакуации." }
+    },
+    {
+      "@type": "Question",
+      "name": "Можно ли эвакуировать машину на АКПП обычным эвакуатором?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Такие машины мы грузим целиком на платформу или перевозим манипулятором, без буксировки на сцепке, чтобы не повредить коробку передач." }
+    },
+    {
+      "@type": "Question",
+      "name": "Сколько стоит эвакуация после ДТП?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Цена складывается из подачи и километража в зависимости от типа автомобиля и повреждений, точную сумму диспетчер называет по телефону после уточнения деталей." }
+    },
+    {
+      "@type": "Question",
+      "name": "Как быстро приедет эвакуатор за МКАД?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Работаем по всей Московской области в радиусе до 100 км от МКАД, включая Химки, Мытищи, Балашиху, Одинцово и другие города." }
+    }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -546,6 +580,16 @@
   }
   @keyframes sweep{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
 
+  .area-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:18px;
+    margin-top:56px; padding-top:48px; border-top:1px solid var(--line);
+  }
+  .area-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:22px;
+  }
+  .area-card h4{font-size:15.5px; margin-bottom:10px; color:var(--beacon);}
+  .area-card p{font-size:13.5px; color:var(--text-dim); line-height:1.65;}
+
   /* ---------- pricing ---------- */
   .pricing-table{
     width:100%; border-collapse:collapse; background:var(--surface);
@@ -562,6 +606,37 @@
   .pricing-table tr:last-child td{border-bottom:none;}
   .pricing-table tr:hover td{background:rgba(255,176,32,.04);}
   .pricing-note{margin-top:16px; font-size:12.5px; color:var(--text-dim-2);}
+
+  /* ---------- faq ---------- */
+  .faq-section{background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .faq-list{display:flex; flex-direction:column; gap:12px; max-width:820px;}
+  .faq-item{
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    transition:border-color .2s;
+  }
+  .faq-item.open{border-color:var(--beacon);}
+  .faq-question{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:18px 20px;
+    background:none; border:none; cursor:pointer; text-align:left;
+    font-family:'Manrope', sans-serif; font-size:14.5px; font-weight:700; color:var(--text);
+  }
+  .faq-icon{
+    flex-shrink:0; width:26px; height:26px; border-radius:50%;
+    background:var(--surface-3); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; color:var(--beacon); line-height:1;
+    transition:transform .3s ease, background .3s ease;
+  }
+  .faq-item.open .faq-icon{ transform:rotate(45deg); background:var(--beacon); color:#181206; border-color:var(--beacon); }
+  .faq-answer{
+    max-height:0; overflow:hidden;
+    transition:max-height .35s ease;
+  }
+  .faq-answer p{ padding:0 20px 20px; font-size:13.5px; color:var(--text-dim); line-height:1.6; }
 
   /* ---------- testimonials ---------- */
   .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
@@ -622,6 +697,7 @@
     .process-list{grid-template-columns:1fr 1fr; row-gap:36px;}
     .process-list::before{display:none;}
     .coverage-grid{grid-template-columns:1fr;}
+    .area-grid{grid-template-columns:1fr;}
     .testi-grid{grid-template-columns:1fr;}
     .footer-grid{grid-template-columns:1fr 1fr;}
     .nav-links{display:none;}
@@ -669,6 +745,7 @@
       <a href="#process">Как это работает</a>
       <a href="#coverage">Зона выезда</a>
       <a href="#pricing">Тарифы</a>
+      <a href="#faq">Вопросы</a>
     </nav>
     <div class="phone-cta">
       <a href="tel:+79035054089" class="phone-num">+7 903 505-40-89</a>
@@ -939,6 +1016,27 @@
       <div class="center-dot"></div>
     </div>
   </div>
+
+  <div class="wrap">
+    <div class="area-grid">
+      <div class="area-card reveal">
+        <h4>Москва — все округа</h4>
+        <p>Выезжаем во все административные округа Москвы — от ЦАО до Новомосковского и Троицкого (Новая Москва). Экипажи стоят не в одной точке, а распределены по городу, поэтому подача внутри МКАД в среднем занимает 20–30 минут вне зависимости от того, где именно застряла машина — в центре, на юго-востоке или на западе города.</p>
+      </div>
+      <div class="area-card reveal">
+        <h4>Ближнее Подмосковье</h4>
+        <p>Химки и Долгопрудный — по Ленинградскому и Дмитровскому шоссе, Мытищи — по Ярославскому направлению, Балашиха — по Горьковскому шоссе, Одинцово — по Можайскому шоссе, Красногорск — по Волоколамскому и Пятницкому шоссе. Эти направления обслуживаются наравне с Москвой, время подачи обычно не сильно выше, чем внутри МКАД.</p>
+      </div>
+      <div class="area-card reveal">
+        <h4>Дальнее Подмосковье</h4>
+        <p>Подольск и Домодедово — по Симферопольскому и Каширскому шоссе, Щёлково — по Щёлковскому шоссе, Ногинск — по Горьковскому направлению. Выезжаем и дальше, вплоть до 100 км от МКАД — стоимость в этом случае считается по фактическому расстоянию, без наценки за «дальний» район.</p>
+      </div>
+      <div class="area-card reveal">
+        <h4>Федеральные трассы вокруг Москвы</h4>
+        <p>Регулярно работаем на трассах М1 «Беларусь» (запад), М3 «Украина» (юго-запад), М4 «Дон» (юг), М7 «Волга» (восток), М9 «Балтия» (северо-запад), М10/М11 «Россия»/«Нева» (север), а также на ЦКАД (А-113). Если машина встала на трассе — диспетчеру достаточно назвать ближайший километровый столб или пост ДПС, чтобы быстро определить точку выезда.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="pricing">
@@ -963,6 +1061,67 @@
         </tbody>
       </table>
       <p class="pricing-note">Подача — фиксированная плата за выезд экипажа, километраж считается по фактическому маршруту от точки А до точки Б. Ожидание свыше 15 минут на месте — 300 ₽ за каждые следующие 15 минут.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section" id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Вопросы</span>
+      <h2>Отвечаем на частые вопросы</h2>
+      <p>Если не нашли ответ здесь — просто позвоните, диспетчер на связи круглосуточно.</p>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-question" type="button">
+          <span>Сколько ждать эвакуатор ночью в Москве?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>Мы работаем круглосуточно, без выходных и праздников. Ночью экипажи распределены по городу так же, как днём, поэтому среднее время подачи не сильно отличается — обычно 20–40 минут в зависимости от района. Точное время диспетчер называет сразу при звонке, ориентируясь на ближайший свободный экипаж.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" type="button">
+          <span>Что делать, если у машины заблокировано колесо?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>Такое случается из-за сработавшего стояночного тормоза, замерзших колодок или колёсного блокиратора. Наш экипаж умеет снимать блокировку на месте — это отдельная услуга стоимостью 1 500 ₽, добавляется к стоимости эвакуации. Просто предупредите диспетчера при заказе, что колесо не крутится, — так на выезд возьмут нужный инструмент сразу.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" type="button">
+          <span>Можно ли эвакуировать машину на АКПП обычным эвакуатором?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>Буксировка на жёсткой сцепке автомобиля с автоматической коробкой передач без нейтрали может повредить коробку. Поэтому такие машины мы грузим целиком на платформу эвакуатора либо перевозим манипулятором — колёса вообще не касаются земли, и коробке ничего не грозит.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" type="button">
+          <span>Сколько стоит эвакуация после ДТП?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>Цена складывается так же, как при обычной эвакуации — подача плюс километраж, в зависимости от типа автомобиля и повреждений (иногда после аварии машину проще и безопаснее забрать манипулятором, а не платформой). Если авто не на ходу и заблокированы колёса — это может добавить стоимость разблокировки. Точную сумму диспетчер называет по телефону, узнав детали.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" type="button">
+          <span>Как быстро приедет эвакуатор за МКАД?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>Работаем по всей Московской области — Химки, Мытищи, Балашиха, Одинцово, Красногорск, Подольск, Домодедово, Щёлково, Ногинск и другие города, а также по трассам М1–М11, в радиусе до 100 км от МКАД. Время подачи за МКАД зависит от конкретного расстояния — уточняется у диспетчера при заказе.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" type="button">
+          <span>Нужно ли самому находиться рядом с машиной?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>Присутствие владельца или водителя на месте желательно — для оформления и передачи ключей. Если приехать самостоятельно не получается, обсудите этот момент с диспетчером заранее: в большинстве случаев можно организовать выезд и без вас, но это уточняется индивидуально.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" type="button">
+          <span>Можно ли заказать эвакуатор заранее, на определённое время?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p>Да, если знаете точное время и адрес — например, для планового перегона автомобиля или с парковки перед эвакуацией по требованию ГИБДД. Позвоните диспетчеру и укажите желаемое время, экипаж закрепят заранее.</p></div>
+      </div>
     </div>
   </div>
 </section>
@@ -1052,6 +1211,22 @@
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, {threshold:.15});
   revealEls.forEach(el=>io.observe(el));
+
+  /* ---------------- FAQ accordion ---------------- */
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const btn = item.querySelector('.faq-question');
+    const answer = item.querySelector('.faq-answer');
+    btn.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      if(isOpen){
+        item.classList.remove('open');
+        answer.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
 
   /* ---------------- mobile nav ---------------- */
   document.querySelector('.menu-toggle').addEventListener('click', ()=>{
