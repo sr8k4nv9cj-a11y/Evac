@@ -522,6 +522,29 @@
     padding:8px 14px; border-radius:999px; background:var(--surface-2); border:1px solid var(--line);
     font-size:12.5px; color:var(--text-dim);
   }
+
+  /* ---------- related-links (cross-page navigation) ---------- */
+  .related-links{
+    margin-top:52px; padding-top:32px; border-top:1px solid var(--line);
+  }
+  .related-links .rl-label{
+    font-family:'JetBrains Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--text-dim-2); margin-bottom:14px; display:block;
+  }
+  .related-links .rl-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .related-links a{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 16px; border-radius:999px;
+    background:var(--surface-2); border:1px solid var(--line);
+    font-size:13px; font-weight:600; color:var(--text);
+    transition:border-color .2s, color .2s, background .2s;
+  }
+  .related-links a:hover{border-color:var(--beacon); color:var(--beacon); background:rgba(255,176,32,.06);}
+  .related-links a .arrow{transition:transform .2s;}
+  .related-links a:hover .arrow{transform:translateX(3px);}
+  .inline-link{color:var(--beacon); font-weight:600; border-bottom:1px dashed rgba(255,176,32,.5); transition:border-color .2s;}
+  .inline-link:hover{border-color:var(--beacon);}
+
   .coverage-visual{
     aspect-ratio:1/1; border-radius:24px; background:var(--surface-2); border:1px solid var(--line);
     position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center;
@@ -727,44 +750,54 @@
     <div class="section-head reveal">
       <span class="section-tag">Услуги</span>
       <h2>Эвакуация любой сложности</h2>
-      <p>От городского седана до спецтехники — подберём машину и способ погрузки под конкретную ситуацию.</p>
+      <p>От городского седана до спецтехники — подберём машину и способ погрузки под конкретную ситуацию. Актуальные цены — на странице <a href="tarify.html" class="inline-link">тарифов</a>.</p>
     </div>
     <div class="services-grid">
       <div class="service-card reveal">
         <div class="ico">🚗</div>
         <h4>Легковые автомобили</h4>
         <p>Погрузка на платформу или частичная погрузка — сохраняем клиренс и подвеску.</p>
-        <div class="price-tag">от 4 000 ₽</div>
+        <a href="tarify.html" class="price-tag" style="display:inline-block;">от 4 000 ₽</a>
       </div>
       <div class="service-card reveal">
         <div class="ico">🚙</div>
         <h4>Кроссоверы и джипы</h4>
         <p>Усиленные платформы для тяжёлых и высоких автомобилей, в том числе с полным приводом.</p>
-        <div class="price-tag">от 5 000 ₽</div>
+        <a href="tarify.html" class="price-tag" style="display:inline-block;">от 5 000 ₽</a>
       </div>
       <div class="service-card reveal">
         <div class="ico">🏗️</div>
         <h4>Манипулятор — седаны</h4>
-        <p>Погрузка манипулятором без буксировки, когда платформой не подъехать или машина не на ходу.</p>
-        <div class="price-tag">12 000 ₽</div>
+        <p>Погрузка манипулятором без буксировки, когда платформой не подъехать или машина не на ходу. Подробнее — в <a href="voprosy.html" class="inline-link">вопросах про АКПП</a>.</p>
+        <a href="tarify.html" class="price-tag" style="display:inline-block;">12 000 ₽</a>
       </div>
       <div class="service-card reveal">
         <div class="ico">🏗️</div>
         <h4>Манипулятор — кроссоверы / джипы</h4>
         <p>Тот же принцип погрузки для более тяжёлых и высоких автомобилей.</p>
-        <div class="price-tag">13 000 ₽</div>
+        <a href="tarify.html" class="price-tag" style="display:inline-block;">13 000 ₽</a>
       </div>
       <div class="service-card reveal">
         <div class="ico">🏗️</div>
         <h4>Манипулятор — тяжёлые джипы</h4>
         <p>Для крупных внедорожников и рамных джипов, где нужен усиленный манипулятор.</p>
-        <div class="price-tag">15 000 ₽</div>
+        <a href="tarify.html" class="price-tag" style="display:inline-block;">15 000 ₽</a>
       </div>
       <div class="service-card reveal">
         <div class="ico">🔓</div>
         <h4>Заблокированное колесо</h4>
         <p>Снимаем блокировку стояночного тормоза или колёсного блокиратора прямо на месте.</p>
-        <div class="price-tag">1 500 ₽</div>
+        <a href="tarify.html" class="price-tag" style="display:inline-block;">1 500 ₽</a>
+      </div>
+    </div>
+
+    <div class="related-links reveal">
+      <span class="rl-label">Смотрите также</span>
+      <div class="rl-row">
+        <a href="tarify.html">Все тарифы <span class="arrow">→</span></a>
+        <a href="zona-vyezda.html">Зона выезда <span class="arrow">→</span></a>
+        <a href="voprosy.html">Частые вопросы <span class="arrow">→</span></a>
+        <a href="index.html#calc">Рассчитать стоимость <span class="arrow">→</span></a>
       </div>
     </div>
   </div>

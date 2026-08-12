@@ -522,6 +522,29 @@
     padding:8px 14px; border-radius:999px; background:var(--surface-2); border:1px solid var(--line);
     font-size:12.5px; color:var(--text-dim);
   }
+
+  /* ---------- related-links (cross-page navigation) ---------- */
+  .related-links{
+    margin-top:52px; padding-top:32px; border-top:1px solid var(--line);
+  }
+  .related-links .rl-label{
+    font-family:'JetBrains Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--text-dim-2); margin-bottom:14px; display:block;
+  }
+  .related-links .rl-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .related-links a{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 16px; border-radius:999px;
+    background:var(--surface-2); border:1px solid var(--line);
+    font-size:13px; font-weight:600; color:var(--text);
+    transition:border-color .2s, color .2s, background .2s;
+  }
+  .related-links a:hover{border-color:var(--beacon); color:var(--beacon); background:rgba(255,176,32,.06);}
+  .related-links a .arrow{transition:transform .2s;}
+  .related-links a:hover .arrow{transform:translateX(3px);}
+  .inline-link{color:var(--beacon); font-weight:600; border-bottom:1px dashed rgba(255,176,32,.5); transition:border-color .2s;}
+  .inline-link:hover{border-color:var(--beacon);}
+
   .coverage-visual{
     aspect-ratio:1/1; border-radius:24px; background:var(--surface-2); border:1px solid var(--line);
     position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center;
@@ -727,7 +750,7 @@
     <div class="reveal">
       <span class="section-tag">Зона выезда</span>
       <h2 style="font-size:clamp(26px,3.2vw,36px); margin-bottom:14px;">Москва, МКАД и область — до 100 км</h2>
-      <p style="color:var(--text-dim); font-size:15px;">Экипажи распределены по городу и области, поэтому среднее время выезда почти не зависит от района. За МКАД считаем по фактическому расстоянию от границы города.</p>
+      <p style="color:var(--text-dim); font-size:15px;">Экипажи распределены по городу и области, поэтому среднее время выезда почти не зависит от района. За МКАД считаем по фактическому расстоянию от границы города — точную стоимость смотрите на странице <a href="tarify.html" class="inline-link">тарифов</a>.</p>
       <div class="coverage-tags">
         <span>Все округа Москвы</span>
         <span>Новая Москва</span>
@@ -765,6 +788,16 @@
       <div class="area-card reveal">
         <h4>Федеральные трассы вокруг Москвы</h4>
         <p>Регулярно работаем на трассах М1 «Беларусь» (запад), М3 «Украина» (юго-запад), М4 «Дон» (юг), М7 «Волга» (восток), М9 «Балтия» (северо-запад), М10/М11 «Россия»/«Нева» (север), а также на ЦКАД (А-113). Если машина встала на трассе — диспетчеру достаточно назвать ближайший километровый столб или пост ДПС, чтобы быстро определить точку выезда.</p>
+      </div>
+    </div>
+
+    <div class="related-links reveal">
+      <span class="rl-label">Смотрите также</span>
+      <div class="rl-row">
+        <a href="tarify.html">Тарифы <span class="arrow">→</span></a>
+        <a href="uslugi.html">Услуги <span class="arrow">→</span></a>
+        <a href="voprosy.html">Частые вопросы <span class="arrow">→</span></a>
+        <a href="index.html#calc">Рассчитать маршрут <span class="arrow">→</span></a>
       </div>
     </div>
   </div>

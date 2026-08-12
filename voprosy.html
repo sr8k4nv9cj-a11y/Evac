@@ -556,6 +556,29 @@
     padding:8px 14px; border-radius:999px; background:var(--surface-2); border:1px solid var(--line);
     font-size:12.5px; color:var(--text-dim);
   }
+
+  /* ---------- related-links (cross-page navigation) ---------- */
+  .related-links{
+    margin-top:52px; padding-top:32px; border-top:1px solid var(--line);
+  }
+  .related-links .rl-label{
+    font-family:'JetBrains Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--text-dim-2); margin-bottom:14px; display:block;
+  }
+  .related-links .rl-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .related-links a{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 16px; border-radius:999px;
+    background:var(--surface-2); border:1px solid var(--line);
+    font-size:13px; font-weight:600; color:var(--text);
+    transition:border-color .2s, color .2s, background .2s;
+  }
+  .related-links a:hover{border-color:var(--beacon); color:var(--beacon); background:rgba(255,176,32,.06);}
+  .related-links a .arrow{transition:transform .2s;}
+  .related-links a:hover .arrow{transform:translateX(3px);}
+  .inline-link{color:var(--beacon); font-weight:600; border-bottom:1px dashed rgba(255,176,32,.5); transition:border-color .2s;}
+  .inline-link:hover{border-color:var(--beacon);}
+
   .coverage-visual{
     aspect-ratio:1/1; border-radius:24px; background:var(--surface-2); border:1px solid var(--line);
     position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center;
@@ -769,35 +792,35 @@
           <span>Сколько ждать эвакуатор ночью в Москве?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><p>Мы работаем круглосуточно, без выходных и праздников. Ночью экипажи распределены по городу так же, как днём, поэтому среднее время подачи не сильно отличается — обычно 20–40 минут в зависимости от района. Точное время диспетчер называет сразу при звонке, ориентируясь на ближайший свободный экипаж.</p></div>
+        <div class="faq-answer"><p>Мы работаем круглосуточно, без выходных и праздников. Ночью экипажи распределены по городу так же, как днём, поэтому среднее время подачи не сильно отличается — обычно 20–40 минут в зависимости от района. Точное время диспетчер называет сразу при звонке, ориентируясь на ближайший свободный экипаж. Подробнее о районах — на странице <a href="zona-vyezda.html" class="inline-link">«Зона выезда»</a>.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" type="button">
           <span>Что делать, если у машины заблокировано колесо?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><p>Такое случается из-за сработавшего стояночного тормоза, замерзших колодок или колёсного блокиратора. Наш экипаж умеет снимать блокировку на месте — это отдельная услуга стоимостью 1 500 ₽, добавляется к стоимости эвакуации. Просто предупредите диспетчера при заказе, что колесо не крутится, — так на выезд возьмут нужный инструмент сразу.</p></div>
+        <div class="faq-answer"><p>Такое случается из-за сработавшего стояночного тормоза, замерзших колодок или колёсного блокиратора. Наш экипаж умеет снимать блокировку на месте — это отдельная услуга стоимостью 1 500 ₽ (см. <a href="tarify.html" class="inline-link">тарифы</a>), добавляется к стоимости эвакуации. Просто предупредите диспетчера при заказе, что колесо не крутится, — так на выезд возьмут нужный инструмент сразу.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" type="button">
           <span>Можно ли эвакуировать машину на АКПП обычным эвакуатором?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><p>Буксировка на жёсткой сцепке автомобиля с автоматической коробкой передач без нейтрали может повредить коробку. Поэтому такие машины мы грузим целиком на платформу эвакуатора либо перевозим манипулятором — колёса вообще не касаются земли, и коробке ничего не грозит.</p></div>
+        <div class="faq-answer"><p>Буксировка на жёсткой сцепке автомобиля с автоматической коробкой передач без нейтрали может повредить коробку. Поэтому такие машины мы грузим целиком на платформу эвакуатора либо перевозим <a href="uslugi.html" class="inline-link">манипулятором</a> — колёса вообще не касаются земли, и коробке ничего не грозит.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" type="button">
           <span>Сколько стоит эвакуация после ДТП?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><p>Цена складывается так же, как при обычной эвакуации — подача плюс километраж, в зависимости от типа автомобиля и повреждений (иногда после аварии машину проще и безопаснее забрать манипулятором, а не платформой). Если авто не на ходу и заблокированы колёса — это может добавить стоимость разблокировки. Точную сумму диспетчер называет по телефону, узнав детали.</p></div>
+        <div class="faq-answer"><p>Цена складывается так же, как при обычной эвакуации — подача плюс километраж (полная <a href="tarify.html" class="inline-link">таблица тарифов</a> — по ссылке), в зависимости от типа автомобиля и повреждений. Иногда после аварии машину проще и безопаснее забрать манипулятором, а не платформой. Если авто не на ходу и заблокированы колёса — это может добавить стоимость разблокировки. Точную сумму диспетчер называет по телефону, узнав детали.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" type="button">
           <span>Как быстро приедет эвакуатор за МКАД?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><p>Работаем по всей Московской области — Химки, Мытищи, Балашиха, Одинцово, Красногорск, Подольск, Домодедово, Щёлково, Ногинск и другие города, а также по трассам М1–М11, в радиусе до 100 км от МКАД. Время подачи за МКАД зависит от конкретного расстояния — уточняется у диспетчера при заказе.</p></div>
+        <div class="faq-answer"><p>Работаем по всей Московской области — Химки, Мытищи, Балашиха, Одинцово, Красногорск, Подольск, Домодедово, Щёлково, Ногинск и другие города, а также по трассам М1–М11, в радиусе до 100 км от МКАД (подробная карта зоны — на странице <a href="zona-vyezda.html" class="inline-link">«Зона выезда»</a>). Время подачи за МКАД зависит от конкретного расстояния — уточняется у диспетчера при заказе.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" type="button">
@@ -812,6 +835,16 @@
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer"><p>Да, если знаете точное время и адрес — например, для планового перегона автомобиля или с парковки перед эвакуацией по требованию ГИБДД. Позвоните диспетчеру и укажите желаемое время, экипаж закрепят заранее.</p></div>
+      </div>
+    </div>
+
+    <div class="related-links reveal">
+      <span class="rl-label">Смотрите также</span>
+      <div class="rl-row">
+        <a href="uslugi.html">Все услуги <span class="arrow">→</span></a>
+        <a href="tarify.html">Тарифы <span class="arrow">→</span></a>
+        <a href="zona-vyezda.html">Зона выезда <span class="arrow">→</span></a>
+        <a href="otzyvy.html">Отзывы клиентов <span class="arrow">→</span></a>
       </div>
     </div>
   </div>
