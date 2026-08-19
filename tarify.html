@@ -1047,13 +1047,8 @@
         })
         .then(res=>{ if(!res.ok) throw new Error('submit-failed'); return res.json(); })
         .then(()=>{
-          formView.style.display = 'none';
-          successView.style.display = 'block';
-          successView.classList.remove('play');
-          void successView.offsetWidth;
-          successView.classList.add('play');
-          playFieldAnimation(successView);
           if(typeof trackGoal === 'function') trackGoal('lead_form_submit');
+          window.location.href = 'spasibo.html';
         })
         .catch(()=>{
           statusEl.textContent = 'Не удалось отправить заявку. Позвоните нам напрямую — кнопка звонка ниже точно сработает.';
