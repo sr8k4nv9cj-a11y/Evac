@@ -692,6 +692,8 @@
     .nav-links{display:none;}
     .menu-toggle{display:flex;}
     #map, .calc-map-wrap{min-height:380px;}
+    .open-lead-modal-trigger{padding:12px 13px;}
+    .open-lead-modal-trigger .btn-label-full{display:none;}
   }
   @media (max-width:600px){
     .services-grid{grid-template-columns:1fr;}
@@ -701,6 +703,8 @@
     .stat{flex:1 1 40%;}
     .phone-num{display:none;}
     .car-types{grid-template-columns:1fr 1fr;}
+    .open-lead-modal-trigger{padding:12px 13px;}
+    .open-lead-modal-trigger .btn-label-full{display:none;}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -709,6 +713,50 @@
 
   :focus-visible{outline:2px solid var(--beacon); outline-offset:2px;}
 
+
+  /* ---------- lead form modal ---------- */
+  .sticky-form{
+    position:fixed; right:20px; bottom:92px; z-index:200;
+    width:52px; height:52px; border-radius:50%;
+    background:var(--surface-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:21px; box-shadow:0 12px 26px rgba(0,0,0,.4);
+    cursor:pointer; transition:transform .2s, border-color .2s;
+  }
+  .sticky-form:hover{transform:translateY(-2px); border-color:var(--route);}
+  .lead-modal-overlay{
+    position:fixed; inset:0; background:rgba(8,10,14,.78); backdrop-filter:blur(4px);
+    z-index:400; display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  .lead-modal-overlay.show{display:flex; animation:fadeInOverlay .25s ease;}
+  @keyframes fadeInOverlay{from{opacity:0;} to{opacity:1;}}
+  .lead-modal{
+    background:var(--surface); border:1px solid var(--line); border-radius:20px;
+    padding:28px; max-width:440px; width:100%; max-height:88vh; overflow-y:auto;
+    position:relative; animation:leadModalPop .3s cubic-bezier(.2,.9,.3,1.2);
+    box-shadow:0 30px 70px rgba(0,0,0,.5);
+  }
+  @keyframes leadModalPop{from{opacity:0; transform:translateY(18px) scale(.97);} to{opacity:1; transform:translateY(0) scale(1);}}
+  .lead-modal-close{
+    position:absolute; top:14px; right:14px; width:32px; height:32px; border-radius:50%;
+    background:var(--surface-2); border:1px solid var(--line); color:var(--text-dim);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px;
+  }
+  .lead-modal h3{font-size:19px; margin-bottom:6px; padding-right:30px;}
+  .lead-modal .sub{color:var(--text-dim); font-size:13px; margin-bottom:20px;}
+  .lead-modal .field textarea{
+    width:100%; background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:13px 14px; color:var(--text); font-family:'Manrope', sans-serif; font-size:14.5px;
+    outline:none; resize:vertical; min-height:70px; transition:border-color .18s;
+  }
+  .lead-modal .field textarea:focus{border-color:var(--beacon);}
+  .lead-modal .field input::placeholder, .lead-modal .field textarea::placeholder{color:var(--text-dim-2);}
+  #lead-status{font-size:12.5px; margin-top:4px; display:none;}
+  #lead-status.is-error{color:var(--beacon-2); display:block;}
+  .lead-success{text-align:center; padding:12px 0 4px;}
+  .lead-success .ico{font-size:42px; margin-bottom:14px;}
+  .lead-success h3{margin-bottom:10px;}
+  .lead-success p{color:var(--text-dim); font-size:14px; margin-bottom:22px; line-height:1.5;}
 </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -738,6 +786,7 @@
     </nav>
     <div class="phone-cta">
       <a href="tel:+79035054089" class="phone-num">+7 903 505-40-89</a>
+      <button type="button" class="btn btn-ghost open-lead-modal-trigger">📋 <span class="btn-label-full">Оставить заявку</span></button>
       <a href="tel:+79035054089" class="btn btn-primary">☎ Вызвать эвакуатор</a>
       <button class="menu-toggle" aria-label="Меню"><span></span><span></span><span></span></button>
     </div>
@@ -850,6 +899,52 @@
 </footer>
 
 <a href="tel:+79035054089" class="sticky-call" aria-label="Позвонить">☎</a>
+<button type="button" class="sticky-form open-lead-modal-trigger" aria-label="Оставить заявку">📋</button>
+
+<div class="lead-modal-overlay" id="lead-modal-overlay">
+  <div class="lead-modal">
+    <button type="button" class="lead-modal-close" id="lead-modal-close">✕</button>
+
+    <div id="lead-form-view">
+      <h3>Оставить заявку</h3>
+      <div class="sub">Заполните форму — диспетчер перезвонит и уточнит детали</div>
+
+      <form id="lead-form">
+        <div class="field">
+          <label>Телефон *</label>
+          <input type="tel" id="lead-phone" placeholder="+7 900 000-00-00" required>
+        </div>
+        <div class="field">
+          <label>Откуда забрать</label>
+          <input type="text" id="lead-from" placeholder="Адрес или ориентир">
+        </div>
+        <div class="field">
+          <label>Куда доставить</label>
+          <input type="text" id="lead-to" placeholder="Адрес или ориентир">
+        </div>
+        <div class="field">
+          <label>Какая машина</label>
+          <input type="text" id="lead-car" placeholder="Например, Kia Rio, легковой">
+        </div>
+        <div class="field">
+          <label>Комментарий</label>
+          <textarea id="lead-comment" placeholder="Что случилось, есть ли особенности"></textarea>
+        </div>
+        <div id="lead-status"></div>
+        <button type="submit" class="btn btn-primary calc-btn" id="lead-submit-btn" style="margin-top:6px;">Отправить заявку</button>
+      </form>
+    </div>
+
+    <div class="lead-success" id="lead-success-view" style="display:none;">
+      <div class="ico">✅</div>
+      <h3>Спасибо за заявку!</h3>
+      <p>Диспетчер уже видит ваши данные и скоро свяжется по указанному телефону. Если срочно — можно позвонить прямо сейчас.</p>
+      <a href="tel:+79035054089" class="btn btn-primary" style="width:100%;">☎ Позвонить сейчас — +7 903 505-40-89</a>
+    </div>
+  </div>
+</div>
+
+
 
 
 <script>
@@ -902,6 +997,98 @@
     }
   });
 
+</script>
+
+<script>
+  /* ---------------- lead form modal ---------------- */
+  (function(){
+    const overlay = document.getElementById('lead-modal-overlay');
+    const openBtns = document.querySelectorAll('.open-lead-modal-trigger');
+    const closeBtn = document.getElementById('lead-modal-close');
+    const formView = document.getElementById('lead-form-view');
+    const successView = document.getElementById('lead-success-view');
+    const form = document.getElementById('lead-form');
+    const statusEl = document.getElementById('lead-status');
+    const submitBtn = document.getElementById('lead-submit-btn');
+
+    function playFieldAnimation(container){
+      const items = container.querySelectorAll('.field, textarea, #lead-status, button, .ico-ring, h3, p, > a');
+      const els = container.matches('#lead-form-view') ? container.querySelectorAll('form > *') : container.children;
+      Array.from(els).forEach((el, i)=>{
+        el.classList.remove('lead-anim-in');
+        void el.offsetWidth;
+        el.style.animationDelay = (i * 0.06) + 's';
+        el.classList.add('lead-anim-in');
+      });
+    }
+
+    function openModal(){
+      overlay.classList.add('show');
+      formView.style.display = 'block';
+      successView.style.display = 'none';
+      successView.classList.remove('play');
+      form.reset();
+      statusEl.style.display = 'none';
+      playFieldAnimation(formView);
+    }
+    function closeModal(){ overlay.classList.remove('show'); }
+
+    openBtns.forEach(btn => btn.addEventListener('click', openModal));
+    if(closeBtn) closeBtn.addEventListener('click', closeModal);
+    if(overlay) overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+
+    if(form){
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const phone = document.getElementById('lead-phone').value.trim();
+        if(!phone){
+          statusEl.textContent = 'Укажите номер телефона.';
+          statusEl.className = 'is-error';
+          statusEl.style.display = 'block';
+          return;
+        }
+        statusEl.style.display = 'none';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправляем…';
+
+        const payload = {
+          phone: phone,
+          from: document.getElementById('lead-from').value.trim(),
+          to: document.getElementById('lead-to').value.trim(),
+          car: document.getElementById('lead-car').value.trim(),
+          comment: document.getElementById('lead-comment').value.trim(),
+          page: location.href,
+          _subject: 'Новая заявка с сайта evacmsc.ru'
+        };
+
+        fetch('https://formsubmit.co/ajax/spinovoi97@mail.ru', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(res=>{ if(!res.ok) throw new Error('submit-failed'); return res.json(); })
+        .then(()=>{
+          formView.style.display = 'none';
+          successView.style.display = 'block';
+          successView.classList.remove('play');
+          void successView.offsetWidth;
+          successView.classList.add('play');
+          playFieldAnimation(successView);
+          if(typeof trackGoal === 'function') trackGoal('lead_form_submit');
+        })
+        .catch(()=>{
+          statusEl.textContent = 'Не удалось отправить заявку. Позвоните нам напрямую — кнопка звонка ниже точно сработает.';
+          statusEl.className = 'is-error';
+          statusEl.style.display = 'block';
+        })
+        .finally(()=>{
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Отправить заявку';
+        });
+      });
+    }
+  })();
 </script>
 
 <script>window.CT1_BASE_URL='https://calltreckingone.ru';</script>
