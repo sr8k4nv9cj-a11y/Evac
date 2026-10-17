@@ -1,5 +1,42 @@
+# Эвак МСК — evacmsc.ru
 User-agent: *
 Allow: /
 
-Host: evacmsc.ru
+# Явное разрешение поисковым и ИИ-ботам (для видимости в Алисе/Яндекс Нейро, ChatGPT, Perplexity, Claude и др.)
+User-agent: YandexBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 Sitemap: https://evacmsc.ru/sitemap.xml

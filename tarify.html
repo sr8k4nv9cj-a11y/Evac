@@ -31,28 +31,270 @@
 {
   "@context": "https://schema.org",
   "@type": "AutomotiveBusiness",
+  "@id": "https://evacmsc.ru/#business",
   "name": "Эвак МСК",
-  "image": "https://evacmsc.ru/",
   "url": "https://evacmsc.ru/",
   "telephone": "+7-903-505-40-89",
   "priceRange": "от 4000 ₽",
+  "description": "Круглосуточная эвакуация автомобилей по Москве и Московской области (до 100 км от МКАД). Эвакуатор от 4000 ₽, манипулятор от 12 000 ₽.",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Москва",
     "addressRegion": "Московская область",
     "addressCountry": "RU"
   },
-  "areaServed": {
-    "@type": "City",
-    "name": "Москва и Московская область"
-  },
+  "areaServed": [
+    {
+      "@type": "AdministrativeArea",
+      "name": "Москва"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Московская область"
+    }
+  ],
   "openingHoursSpecification": {
     "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
     "opens": "00:00",
     "closes": "23:59"
-  },
-  "description": "Круглосуточная эвакуация автомобилей по Москве и области. Легковые, кроссоверы, манипулятор от 4000 ₽."
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "Эвакуатор: легковой автомобиль",
+      "serviceType": "Эвакуация автомобилей",
+      "provider": {
+        "@id": "https://evacmsc.ru/#business"
+      },
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Москва"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Московская область"
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "RUB",
+        "priceSpecification": [
+          {
+            "@type": "PriceSpecification",
+            "name": "Подача (от)",
+            "priceCurrency": "RUB",
+            "minPrice": 4000
+          },
+          {
+            "@type": "UnitPriceSpecification",
+            "name": "Стоимость за километр маршрута",
+            "price": 100,
+            "priceCurrency": "RUB",
+            "unitCode": "KMT",
+            "unitText": "км"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Эвакуатор: кроссовер / джип",
+      "serviceType": "Эвакуация автомобилей",
+      "provider": {
+        "@id": "https://evacmsc.ru/#business"
+      },
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Москва"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Московская область"
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "RUB",
+        "priceSpecification": [
+          {
+            "@type": "PriceSpecification",
+            "name": "Подача (от)",
+            "priceCurrency": "RUB",
+            "minPrice": 5000
+          },
+          {
+            "@type": "UnitPriceSpecification",
+            "name": "Стоимость за километр маршрута",
+            "price": 100,
+            "priceCurrency": "RUB",
+            "unitCode": "KMT",
+            "unitText": "км"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Манипулятор: седан",
+      "serviceType": "Эвакуация автомобилей",
+      "provider": {
+        "@id": "https://evacmsc.ru/#business"
+      },
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Москва"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Московская область"
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "RUB",
+        "priceSpecification": [
+          {
+            "@type": "PriceSpecification",
+            "name": "Подача",
+            "priceCurrency": "RUB",
+            "price": 12000
+          },
+          {
+            "@type": "UnitPriceSpecification",
+            "name": "Стоимость за километр маршрута",
+            "price": 150,
+            "priceCurrency": "RUB",
+            "unitCode": "KMT",
+            "unitText": "км"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Манипулятор: кроссовер / джип",
+      "serviceType": "Эвакуация автомобилей",
+      "provider": {
+        "@id": "https://evacmsc.ru/#business"
+      },
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Москва"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Московская область"
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "RUB",
+        "priceSpecification": [
+          {
+            "@type": "PriceSpecification",
+            "name": "Подача",
+            "priceCurrency": "RUB",
+            "price": 13000
+          },
+          {
+            "@type": "UnitPriceSpecification",
+            "name": "Стоимость за километр маршрута",
+            "price": 150,
+            "priceCurrency": "RUB",
+            "unitCode": "KMT",
+            "unitText": "км"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Манипулятор: тяжёлый джип",
+      "serviceType": "Эвакуация автомобилей",
+      "provider": {
+        "@id": "https://evacmsc.ru/#business"
+      },
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Москва"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Московская область"
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "RUB",
+        "priceSpecification": [
+          {
+            "@type": "PriceSpecification",
+            "name": "Подача",
+            "priceCurrency": "RUB",
+            "price": 15000
+          },
+          {
+            "@type": "UnitPriceSpecification",
+            "name": "Стоимость за километр маршрута",
+            "price": 150,
+            "priceCurrency": "RUB",
+            "unitCode": "KMT",
+            "unitText": "км"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Разблокировка колеса",
+      "serviceType": "Эвакуация автомобилей",
+      "provider": {
+        "@id": "https://evacmsc.ru/#business"
+      },
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Москва"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Московская область"
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "RUB",
+        "priceSpecification": [
+          {
+            "@type": "PriceSpecification",
+            "name": "Стоимость услуги",
+            "priceCurrency": "RUB",
+            "price": 1500
+          }
+        ]
+      }
+    }
+  ]
 }
 </script>
 
@@ -150,13 +392,13 @@
     color:var(--text);
   }
   .logo .beacon-dot{width:9px; height:9px;}
-  .nav-links{display:flex; gap:28px; align-items:center;}
-  .nav-links a{font-size:14px; color:var(--text-dim); transition:color .2s;}
+  .nav-links{display:flex; gap:20px; align-items:center;}
+  .nav-links a{font-size:14px; color:var(--text-dim); transition:color .2s; white-space:nowrap;}
   .nav-links a:hover{color:var(--text);}
   .phone-cta{
     display:flex; align-items:center; gap:14px;
   }
-  .phone-num{font-family:'JetBrains Mono', monospace; font-weight:600; font-size:15px; color:var(--text);}
+  .phone-num{font-family:'JetBrains Mono', monospace; font-weight:600; font-size:15px; color:var(--text); white-space:nowrap;}
   .btn{
     display:inline-flex; align-items:center; justify-content:center; gap:8px;
     padding:12px 22px;
@@ -297,6 +539,7 @@
     color:var(--beacon); margin-bottom:14px; display:block;
   }
   .section-head h2{font-size:clamp(28px, 3.4vw, 40px); font-weight:700; margin-bottom:14px;}
+  .section-head h1{font-size:clamp(28px, 3.4vw, 40px); font-weight:700; margin-bottom:14px;}
   .section-head p{color:var(--text-dim); font-size:15.5px;}
 
   .reveal{opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease;}
@@ -783,6 +1026,7 @@
       <a href="zona-vyezda.html">Зона выезда</a>
       <a href="voprosy.html">Вопросы</a>
       <a href="otzyvy.html">Отзывы</a>
+      <a href="rayony.html">Районы</a>
     </nav>
     <div class="phone-cta">
       <a href="tel:+79035054089" class="phone-num">+7 903 505-40-89</a>
@@ -798,7 +1042,7 @@
   <div class="wrap">
     <div class="section-head reveal">
       <span class="section-tag">Тарифы</span>
-      <h2>Прозрачная база расчёта</h2>
+      <h1>Тарифы на эвакуатор в Москве и области</h1>
       <p>Актуальные цены на все виды эвакуации — подробное описание услуг смотрите на странице <a href="uslugi.html" class="inline-link">«Услуги»</a>, а точный расчёт под ваш маршрут — в <a href="index.html#calc" class="inline-link">калькуляторе на главной</a>.</p>
     </div>
     <div class="reveal" style="overflow-x:auto;">
@@ -825,6 +1069,7 @@
         <a href="zona-vyezda.html">Зона выезда <span class="arrow">→</span></a>
         <a href="voprosy.html">Частые вопросы <span class="arrow">→</span></a>
         <a href="otzyvy.html">Отзывы клиентов <span class="arrow">→</span></a>
+        <a href="rayony.html">Все районы <span class="arrow">→</span></a>
       </div>
     </div>
   </div>
@@ -861,6 +1106,7 @@
         <a href="zona-vyezda.html">Зона выезда</a>
         <a href="voprosy.html">Вопросы</a>
         <a href="otzyvy.html">Отзывы</a>
+        <a href="rayony.html">Районы</a>
       </div>
       <div class="footer-col">
         <h5>Контакты</h5>
