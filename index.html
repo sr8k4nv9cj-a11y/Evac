@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Эвак МСК — эвакуатор в Москве и области за 30 минут</title>
-<meta name="description" content="Круглосуточная эвакуация автомобилей по Москве и области. Расчёт стоимости на карте, выезд за 30 минут. Легковые и кроссоверы — от 4000₽, манипулятор — от 12 000₽.">
+<title>Эвакуатор в Москве и области круглосуточно — от 4000 ₽, выезд за 30 минут | Эвак МСК</title>
+<meta name="description" content="Эвакуатор в Москве и Московской области 24/7: легковые и кроссоверы от 4000 ₽, манипулятор от 12 000 ₽. Цена на карте до вызова, подача за 30 минут. Дмитровское шоссе, Пушкино, Софрино. ☎ +7 903 505-40-89">
 <meta name="keywords" content="эвакуатор москва, эвакуация авто, заказать эвакуатор, эвакуатор круглосуточно, манипулятор эвакуатор, эвакуатор московская область, эвакуатор недорого">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="geo.region" content="RU-MOS">
+<meta name="geo.placename" content="Москва">
+<meta name="format-detection" content="telephone=yes">
 <meta name="author" content="Эвак МСК">
 <link rel="canonical" href="https://evacmsc.ru/">
 
@@ -14,14 +17,19 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Эвак МСК">
-<meta property="og:title" content="Эвак МСК — эвакуатор в Москве и области за 30 минут">
-<meta property="og:description" content="Круглосуточная эвакуация автомобилей по Москве и области. Расчёт стоимости на карте, выезд за 30 минут. Легковые и кроссоверы — от 4000₽, манипулятор — от 12 000₽.">
+<meta property="og:title" content="Эвакуатор в Москве и области круглосуточно — Эвак МСК">
+<meta property="og:description" content="Эвакуатор в Москве и Московской области 24/7: легковые и кроссоверы от 4000 ₽, манипулятор от 12 000 ₽. Цена на карте до вызова, подача за 30 минут. Дмитровское шоссе, Пушкино, Софрино. ☎ +7 903 505-40-89">
 <meta property="og:url" content="https://evacmsc.ru/">
+<meta property="og:image" content="https://evacmsc.ru/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Эвакуатор Эвак МСК грузит автомобиль на платформу">
 
 <!-- Twitter Card -->
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Эвак МСК — эвакуатор в Москве и области за 30 минут">
-<meta name="twitter:description" content="Круглосуточная эвакуация автомобилей по Москве и области. Расчёт стоимости на карте, выезд за 30 минут. Легковые и кроссоверы — от 4000₽, манипулятор — от 12 000₽.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://evacmsc.ru/og-image.png">
+<meta name="twitter:title" content="Эвакуатор в Москве и области круглосуточно — Эвак МСК">
+<meta name="twitter:description" content="Эвакуатор в Москве и Московской области 24/7: легковые и кроссоверы от 4000 ₽, манипулятор от 12 000 ₽. Цена на карте до вызова, подача за 30 минут. Дмитровское шоссе, Пушкино, Софрино. ☎ +7 903 505-40-89">
 
 <meta name="theme-color" content="#12151b">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%2312151b'/%3E%3Ccircle cx='50' cy='50' r='30' fill='%23ffb020'/%3E%3C/svg%3E">
@@ -29,44 +37,203 @@
 <!-- Структурированные данные для поисковиков -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "AutomotiveBusiness",
-  "@id": "https://evacmsc.ru/#business",
-  "name": "Эвак МСК",
-  "url": "https://evacmsc.ru/",
-  "telephone": "+7-903-505-40-89",
-  "priceRange": "от 4000 ₽",
-  "description": "Круглосуточная эвакуация автомобилей по Москве и Московской области (до 100 км от МКАД). Эвакуатор от 4000 ₽, манипулятор от 12 000 ₽.",
-  "address": {
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": [
+    "AutomotiveBusiness",
+    "EmergencyService"
+   ],
+   "@id": "https://evacmsc.ru/#business",
+   "name": "Эвак МСК",
+   "alternateName": "Эвакуатор МСК",
+   "url": "https://evacmsc.ru/",
+   "image": "https://evacmsc.ru/og-image.png",
+   "logo": "https://evacmsc.ru/og-image.png",
+   "telephone": "+7-903-505-40-89",
+   "email": "spinovoi97@mail.ru",
+   "priceRange": "от 4000 ₽",
+   "currenciesAccepted": "RUB",
+   "description": "Круглосуточная эвакуация автомобилей по Москве и Московской области (до 100 км от МКАД): сдвижные платформы и краны-манипуляторы. Эвакуатор от 4000 ₽, манипулятор от 12 000 ₽.",
+   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Москва",
     "addressRegion": "Московская область",
     "addressCountry": "RU"
-  },
-  "areaServed": [
+   },
+   "areaServed": [
     {
-      "@type": "AdministrativeArea",
-      "name": "Москва"
+     "@type": "City",
+     "name": "Москва"
     },
     {
-      "@type": "AdministrativeArea",
-      "name": "Московская область"
+     "@type": "AdministrativeArea",
+     "name": "Московская область"
+    },
+    {
+     "@type": "AdministrativeArea",
+     "name": "Пушкинский городской округ"
+    },
+    {
+     "@type": "Place",
+     "name": "Софрино"
+    },
+    {
+     "@type": "City",
+     "name": "Пушкино"
+    },
+    {
+     "@type": "City",
+     "name": "Мытищи"
+    },
+    {
+     "@type": "City",
+     "name": "Химки"
+    },
+    {
+     "@type": "Place",
+     "name": "Дмитровское шоссе"
     }
-  ],
-  "openingHoursSpecification": {
+   ],
+   "openingHoursSpecification": {
     "@type": "OpeningHoursSpecification",
     "dayOfWeek": [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
+     "Monday",
+     "Tuesday",
+     "Wednesday",
+     "Thursday",
+     "Friday",
+     "Saturday",
+     "Sunday"
     ],
     "opens": "00:00",
     "closes": "23:59"
+   },
+   "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Услуги эвакуации",
+    "itemListElement": [
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Эвакуация легкового автомобиля и кроссовера",
+       "serviceType": "Эвакуатор"
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "minPrice": 4000,
+       "priceCurrency": "RUB"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Эвакуация краном-манипулятором",
+       "serviceType": "Манипулятор"
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "minPrice": 12000,
+       "priceCurrency": "RUB"
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Погрузка автомобиля с заблокированными колёсами"
+      },
+      "priceSpecification": {
+       "@type": "PriceSpecification",
+       "price": 1500,
+       "priceCurrency": "RUB"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://evacmsc.ru/#website",
+   "url": "https://evacmsc.ru/",
+   "name": "Эвак МСК",
+   "inLanguage": "ru-RU",
+   "publisher": {
+    "@id": "https://evacmsc.ru/#business"
+   }
+  },
+  {
+   "@type": "WebPage",
+   "@id": "https://evacmsc.ru/#webpage",
+   "url": "https://evacmsc.ru/",
+   "name": "Эвакуатор в Москве и области круглосуточно",
+   "isPartOf": {
+    "@id": "https://evacmsc.ru/#website"
+   },
+   "about": {
+    "@id": "https://evacmsc.ru/#business"
+   },
+   "inLanguage": "ru-RU"
   }
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Сколько стоит эвакуатор в Москве?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Легковой автомобиль или кроссовер — от 4000 ₽: цена складывается из подачи и километража. Кран-манипулятор — от 12 000 ₽. Точную сумму покажет калькулятор на этой странице, диспетчер подтвердит её по телефону до выезда."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Как быстро приедет эвакуатор?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Ближайший экипаж выезжает в течение 5–10 минут после звонка. В среднем по Москве в пределах МКАД эвакуатор приезжает примерно за 30 минут."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Вы работаете ночью и в выходные?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Да. Диспетчерская принимает заявки круглосуточно, без выходных и праздников."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Можно эвакуировать машину с заблокированными колёсами?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Да. Если колесо заблокировано стояночным тормозом, блокиратором или после ДТП, доплата составляет 1500 ₽. Когда машину нельзя закатить на платформу, используем кран-манипулятор."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Когда нужно платить?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Оплата по факту — когда машина доставлена по указанному адресу: в сервис, на стоянку или домой."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "В какие районы вы выезжаете?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "По всей Москве и Московской области до 100 км от МКАД. Чаще всего работаем по Дмитровскому шоссе, в Пушкино, Софрино и других городах Пушкинского округа, а также в Мытищах и Химках."
+   }
+  }
+ ]
 }
 </script>
 
@@ -246,6 +413,7 @@
   }
   .hero-actions{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:40px;}
   .hero-stats{
+    max-width:760px;
     display:flex; gap:0; border-top:1px solid var(--line); padding-top:24px;
   }
   .stat{flex:1; padding-right:20px;}
@@ -526,7 +694,7 @@
     font-family:'JetBrains Mono', monospace; font-weight:700; color:var(--beacon);
     margin-bottom:20px; position:relative; z-index:2;
   }
-  .process-step h4{font-size:16px; margin-bottom:8px;}
+  .process-step h3, .process-step h4{font-size:16px; margin-bottom:8px;}
   .process-step p{font-size:13.5px; color:var(--text-dim);}
 
   /* ---------- coverage ---------- */
@@ -826,6 +994,116 @@
   .lead-success h3{margin-bottom:10px; opacity:0; animation:leadFieldIn .45s ease .25s forwards;}
   .lead-success p{color:var(--text-dim); font-size:14px; margin-bottom:22px; line-height:1.5; opacity:0; animation:leadFieldIn .45s ease .35s forwards;}
   .lead-success > a{opacity:0; animation:leadFieldIn .45s ease .45s forwards;}
+
+  /* ---------- сцена погрузки ---------- */
+  .hero-scene{position:relative; margin:4px 0 34px;}
+  .hero-solo .hero-actions{margin-bottom:0;}
+  .hero-solo{padding-bottom:28px;}
+  .hero-scene-label{display:flex; align-items:center; gap:10px; margin-bottom:14px; font-family:'JetBrains Mono', monospace; font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-dim);}
+  .evac-show{padding-top:24px;}
+  .evac-show .evac-live{margin-top:24px;}
+  .hero-solo{grid-template-columns:1fr;}
+  .hero-solo > div{max-width:760px;}
+  .evac-live{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; margin-top:64px;}
+  .evac-live-text h2, .evac-live-text h3{font-size:clamp(24px,3vw,32px); margin-bottom:12px;}
+  .evac-live-text p{color:var(--text-dim); font-size:15.5px; max-width:440px;}
+  @media (max-width:900px){ .evac-live{grid-template-columns:1fr; gap:28px; margin-top:48px;} }
+  .evac-show{padding:72px 0 56px;}
+  .evac-show .section-head{margin-bottom:28px;}
+  .evac-scene{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:#0d0f12;}
+  .evac-scene svg{display:block; width:100%; height:auto; max-width:1600px; margin:0 auto;}
+  .evac-steps{list-style:none; display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:12px; margin-top:22px;}
+  .evac-steps li{border-top:3px solid var(--line); padding-top:12px; font-size:14px; color:var(--text-dim); transition:color .3s, border-color .3s;}
+  .evac-steps li b{display:block; font-family:'JetBrains Mono', monospace; font-weight:500; font-size:12px; color:var(--text-dim-2); margin-bottom:2px;}
+  .evac-steps li.on{border-color:var(--beacon); color:var(--text);}
+  .evac-steps li.on b{color:var(--beacon);}
+  @media (max-width:600px){ .evac-steps{display:block; margin-top:14px;} .evac-steps li{display:none;} .evac-steps li.on{display:block;} .evac-show{padding:56px 0 44px;} }
+
+  /* ---------- всплывающее окно при прокрутке ---------- */
+  .urgent-pop{
+    position:fixed; left:24px; bottom:24px; z-index:300;
+    width:min(360px, calc(100vw - 48px));
+    background:var(--surface); border:1px solid var(--line); border-radius:18px;
+    padding:18px 18px 16px; box-shadow:0 24px 60px rgba(0,0,0,.55);
+    transform:translateY(calc(100% + 40px)); opacity:0; visibility:hidden;
+    transition:transform .5s cubic-bezier(.2,.9,.3,1.15), opacity .3s ease, visibility 0s linear .5s;
+    overflow:hidden;
+  }
+  .urgent-pop.show{transform:translateY(0); opacity:1; visibility:visible; transition:transform .5s cubic-bezier(.2,.9,.3,1.15), opacity .3s ease;}
+  .urgent-pop::before{
+    content:''; position:absolute; left:0; right:0; top:0; height:4px;
+    background:repeating-linear-gradient(90deg, var(--beacon) 0 14px, #14171c 14px 28px);
+  }
+  .urgent-pop .up-close{
+    position:absolute; top:12px; right:12px; width:30px; height:30px; border-radius:50%;
+    background:var(--surface-2); border:1px solid var(--line); color:var(--text-dim);
+    cursor:pointer; font-size:15px; line-height:1; display:flex; align-items:center; justify-content:center;
+  }
+  .urgent-pop .up-close:hover{color:var(--text); border-color:var(--beacon);}
+  .urgent-pop .up-head{display:flex; align-items:center; gap:10px; margin:6px 36px 10px 0;}
+  .urgent-pop .up-lights{display:flex; gap:4px;}
+  .urgent-pop .up-lights i{width:10px; height:10px; border-radius:3px; background:var(--beacon); animation:upBlink .9s steps(1) infinite;}
+  .urgent-pop .up-lights i:last-child{animation-delay:.45s;}
+  @keyframes upBlink{0%{opacity:1; box-shadow:0 0 12px rgba(255,176,32,.8);} 50%{opacity:.2; box-shadow:none;}}
+  .urgent-pop .up-tag{font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--beacon);}
+  .urgent-pop h4{font-size:18px; margin-bottom:6px;}
+  .urgent-pop p{font-size:13.5px; color:var(--text-dim); margin-bottom:14px;}
+  .urgent-pop .up-actions{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .urgent-pop .btn{padding:11px 12px; font-size:13.5px;}
+  .urgent-pop .up-phone{display:block; margin-top:10px; font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--text-dim-2); text-align:center;}
+  @media (max-width:600px){
+    .urgent-pop{left:12px; right:12px; bottom:12px; width:auto;}
+  }
+
+  /* ---------- большая кнопка вызова на первом экране ---------- */
+  .hero-call{
+    position:relative; overflow:hidden;
+    display:flex; align-items:center; gap:18px;
+    width:100%; max-width:560px; margin-bottom:14px;
+    padding:20px 26px 20px 20px; border-radius:18px;
+    background:linear-gradient(135deg, var(--beacon), var(--beacon-2));
+    color:#181206;
+    box-shadow:0 14px 40px rgba(255,122,69,.35);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .hero-call::after{
+    content:''; position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,.5), transparent);
+    transform:skewX(-20deg); animation:shimmerSweep 3.2s ease-in-out infinite;
+  }
+  .hero-call:hover{transform:translateY(-3px); box-shadow:0 20px 50px rgba(255,122,69,.5);}
+  .hero-call:active{transform:translateY(0);}
+  .hero-call .hc-ico{
+    flex-shrink:0; width:58px; height:58px; border-radius:50%;
+    background:#181206; color:var(--beacon); font-size:26px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 0 0 rgba(24,18,6,.45); animation:hcRing 1.8s ease-out infinite;
+  }
+  @keyframes hcRing{0%{box-shadow:0 0 0 0 rgba(24,18,6,.45);} 70%{box-shadow:0 0 0 14px rgba(24,18,6,0);} 100%{box-shadow:0 0 0 0 rgba(24,18,6,0);}}
+  .hero-call .hc-text{display:flex; flex-direction:column; min-width:0; flex:1;}
+  .hero-call .hc-main{font-family:'Unbounded', sans-serif; font-weight:800; font-size:clamp(19px, 2.4vw, 26px); line-height:1.15;}
+  .hero-call .hc-sub{font-family:'JetBrains Mono', monospace; font-weight:600; font-size:14px; opacity:.8; margin-top:4px;}
+  .hero-call .hc-arrow{font-size:26px; font-weight:800; transition:transform .2s;}
+  .hero-call:hover .hc-arrow{transform:translateX(4px);}
+  @media (max-width:600px){
+    .hero-call{padding:16px 18px 16px 14px; gap:14px;}
+    .hero-call .hc-ico{width:48px; height:48px; font-size:22px;}
+    .hero-call .hc-sub{font-size:12.5px;}
+    .hero-call .hc-arrow{display:none;}
+    .hero-solo .hero-actions{gap:10px;}
+    .hero-solo .hero-actions .btn{flex:1 1 100%;}
+    .hero{padding-top:48px;}
+  }
+
+  /* ---------- SEO: H1, текст о компании ---------- */
+  .hero h1 .h1-kicker{display:block; font-family:'Manrope', sans-serif; font-weight:700; font-size:clamp(15px,1.6vw,18px); letter-spacing:.01em; color:var(--text-dim); margin-bottom:12px;}
+  .seo-about{padding:88px 0;}
+  .seo-grid{display:grid; grid-template-columns:.8fr 1.2fr; gap:56px; align-items:start;}
+  .seo-text{max-width:68ch;}
+  .seo-text p{color:var(--text-dim); font-size:15.5px; line-height:1.7; margin-bottom:16px;}
+  .seo-text p b{color:var(--text); font-weight:700;}
+  .seo-text h3{font-size:18px; margin:28px 0 10px;}
+  @media (max-width:900px){ .seo-grid{grid-template-columns:1fr; gap:8px;} .seo-about{padding:64px 0;} }
 </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -844,9 +1122,9 @@
 <body>
 <header>
   <div class="nav wrap">
-    <a href="index.html" class="logo"><span class="beacon-dot"></span>Эвак <span style="color:var(--beacon)">МСК</span></a>
+    <a href="/" class="logo"><span class="beacon-dot"></span>Эвак <span style="color:var(--beacon)">МСК</span></a>
     <nav class="nav-links">
-      <a href="index.html#calc">Расчёт стоимости</a>
+      <a href="/#calc">Расчёт стоимости</a>
       <a href="uslugi.html">Услуги</a>
       <a href="tarify.html">Тарифы</a>
       <a href="zona-vyezda.html">Зона выезда</a>
@@ -865,22 +1143,154 @@
 
 
 <section class="hero">
-  <div class="wrap hero-grid">
+  <div class="wrap hero-grid hero-solo">
     <div>
       <div class="eyebrow"><span class="beacon-dot"></span>Диспетчерская на линии — 24/7</div>
-      <h1>Эвакуатор приедет,<br>пока вы <span class="accent">дочитаете</span> эту страницу</h1>
+      <h1><span class="h1-kicker">Эвакуатор в Москве и Московской области</span> Приедет, пока вы <span class="accent">дочитаете</span> эту страницу</h1>
       <p class="lead">Забираем машину с места поломки, ДТП или штрафстоянки по Москве и области. Стоимость видно сразу на карте — никаких «сюрпризов» по приезде экипажа.</p>
+      <a href="tel:+79035054089" class="hero-call" id="hero-call">
+        <span class="hc-ico" aria-hidden="true">☎</span>
+        <span class="hc-text">
+          <span class="hc-main">Вызвать эвакуатор</span>
+          <span class="hc-sub">+7 903 505-40-89 · круглосуточно</span>
+        </span>
+        <span class="hc-arrow" aria-hidden="true">→</span>
+      </a>
       <div class="hero-actions">
-        <a href="#calc" class="btn btn-primary">Рассчитать стоимость</a>
+        <a href="#calc" class="btn btn-ghost">🧮 Рассчитать стоимость</a>
         <button type="button" class="btn btn-ghost open-lead-modal-trigger">📋 Оставить заявку</button>
       </div>
-      <div class="hero-stats">
+    </div>
+  </div>
+  <div class="hero-scene">
+    <div class="wrap"><div class="hero-scene-label"><span class="beacon-dot"></span>Так мы забираем вашу машину</div></div>
+    <div class="evac-scene">
+    <svg id="ev-scene" role="img" aria-label="Эвакуатор Эвак МСК подъезжает, опускает платформу и затягивает машину лебёдкой" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="ev-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0d0f12"/>
+          <stop offset="1" stop-color="#1b1e23"/>
+        </linearGradient>
+        <radialGradient id="ev-lampGlow" cx="0.5" cy="0" r="0.8">
+          <stop offset="0" stop-color="#ffb020" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#ffb020" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="ev-beaconGlow">
+          <stop offset="0" stop-color="#ffcf5c" stop-opacity=".9"/>
+          <stop offset="1" stop-color="#ffb020" stop-opacity="0"/>
+        </radialGradient>
+        <pattern id="ev-chev" width="16" height="14" patternUnits="userSpaceOnUse">
+          <rect width="16" height="14" fill="#ffb020"/>
+          <path d="M0 0 L8 0 L0 14 L-8 14Z M16 0 L24 0 L16 14 L8 14Z" fill="#141619"/>
+        </pattern>
+        <g id="ev-wheelT">
+          <circle r="26" fill="#0b0c0e"/>
+          <circle r="15" fill="#5b6067"/>
+          <circle r="5" fill="#141619"/>
+          <path d="M0 -14 V14 M-14 0 H14" stroke="#141619" stroke-width="3"/>
+        </g>
+        <g id="ev-wheelC">
+          <circle r="18" fill="#0b0c0e"/>
+          <circle r="10" fill="#7a8088"/>
+          <path d="M0 -9 V9 M-9 0 H9" stroke="#141619" stroke-width="2.5"/>
+        </g>
+      </defs>
+
+      <rect width="1200" height="340" fill="url(#ev-sky)"/>
+      <g id="ev-city" fill="#1a1d21"></g>
+      <g id="ev-lamps"></g>
+      <!-- дорога -->
+      <rect y="300" width="1200" height="40" fill="#202327"/>
+      <rect y="300" width="1200" height="3" fill="#33373d"/>
+      <g id="ev-dashes" fill="#d8d2c3" opacity=".7"></g>
+
+      <!-- сломанная машина -->
+      <g id="ev-car">
+        <path d="M8,-22 L8,-40 Q12,-50 40,-52 L70,-54 L96,-80 Q100,-84 112,-84 L160,-84 Q170,-84 178,-76 L200,-54 L218,-50 Q229,-46 229,-34 L229,-22 Q229,-14 220,-14 L12,-14 Q8,-14 8,-22Z" fill="#3f6c8e"/>
+        <path d="M100,-56 L113,-75 L140,-75 L140,-56Z M146,-56 L146,-75 L162,-75 Q168,-75 172,-69 L182,-56Z" fill="#141a20"/>
+        <path d="M8,-30 L229,-30" stroke="#2e5270" stroke-width="2"/>
+        <rect id="ev-carTail" x="7" y="-44" width="7" height="8" rx="2" fill="#ff8a1f"/>
+        <rect id="ev-carHead" x="222" y="-44" width="7" height="8" rx="2" fill="#ff8a1f"/>
+        <g class="cw" data-x="50" transform="translate(50,-18)"><use href="#ev-wheelC"/></g>
+        <g class="cw" data-x="184" transform="translate(184,-18)"><use href="#ev-wheelC"/></g>
+      </g>
+
+      <!-- трос лебёдки -->
+      <line id="ev-cable" stroke="#c9c4b8" stroke-width="2" stroke-dasharray="5 3" opacity="0"/>
+
+      <!-- эвакуатор: локальные координаты, кабина справа -->
+      <g id="ev-truck">
+        <rect x="20" y="236" width="420" height="16" fill="#2a2d32"/>
+        <path d="M70,262 Q70,236 110,236 L170,236 Q210,236 210,262Z" fill="#26292d"/>
+        <path d="M444,262 Q444,236 480,236 Q516,236 516,262Z" fill="#26292d"/>
+        <g id="ev-bed">
+          <rect x="0" y="222" width="400" height="14" fill="#8b9097"/>
+          <rect x="0" y="216" width="400" height="6" fill="#a6abb1"/>
+          <rect x="0" y="222" width="34" height="14" fill="url(#ev-chev)"/>
+          <rect x="384" y="198" width="18" height="20" rx="3" fill="#4a4f56"/>
+          <circle cx="393" cy="208" r="5" fill="#2a2d32"/>
+        </g>
+        <!-- бортовая панель с логотипом -->
+        <g id="ev-brand">
+          <rect x="208" y="238" width="206" height="26" rx="3" fill="#101215" stroke="#ffb020" stroke-width="1.5"/>
+          <rect x="208" y="238" width="10" height="26" fill="url(#ev-chev)"/>
+          <rect x="404" y="238" width="10" height="26" fill="url(#ev-chev)"/>
+          <text x="311" y="257.5" text-anchor="middle" font-family="Unbounded, Arial Black, sans-serif" font-weight="800" font-size="15" letter-spacing="1.5"><tspan fill="#ffb020">ЭВАК</tspan><tspan fill="#f3f1ea" dx="7">МСК</tspan></text>
+        </g>
+        <g id="ev-cab">
+          <path d="M420,262 L420,152 Q420,140 432,140 L506,140 Q516,140 522,150 L552,203 Q560,212 560,224 L560,262Z" fill="#ffb020"/>
+          <path d="M470,152 L505,152 L534,203 L470,203Z" fill="#141a20"/>
+          <path d="M432,152 L460,152 L460,203 L432,203Z" fill="#141a20"/>
+          <path d="M464,152 V258" stroke="#c98612" stroke-width="2"/>
+          <rect x="540" y="246" width="24" height="16" rx="2" fill="#2a2d32"/>
+          <rect x="548" y="214" width="12" height="9" rx="2" fill="#fff2c8"/>
+          <rect x="422" y="228" width="40" height="5" fill="#c98612"/>
+          <text x="441" y="222" text-anchor="middle" font-family="Unbounded, Arial Black, sans-serif" font-weight="800" font-size="9" fill="#141619">ЭВАК</text>
+          <rect x="442" y="130" width="40" height="10" rx="3" fill="#2a2d32"/>
+          <rect id="ev-bL" x="446" y="122" width="13" height="9" rx="2" fill="#ffb020"/>
+          <rect id="ev-bR" x="465" y="122" width="13" height="9" rx="2" fill="#ffb020"/>
+          <circle id="ev-bGlow" cx="462" cy="126" r="46" fill="url(#ev-beaconGlow)"/>
+          <rect id="ev-revLight" x="18" y="240" width="6" height="8" fill="#fff" opacity="0"/>
+        </g>
+        <g class="tw" transform="translate(110,274)"><use href="#ev-wheelT"/></g>
+        <g class="tw" transform="translate(170,274)"><use href="#ev-wheelT"/></g>
+        <g class="tw" transform="translate(480,274)"><use href="#ev-wheelT"/></g>
+        <rect id="ev-headBeam" x="560" y="210" width="0" height="0"/>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap">
+    <ol class="evac-steps" id="ev-steps">
+      <li><b>01</b>Подъезжаем задним ходом</li>
+      <li><b>02</b>Опускаем платформу</li>
+      <li><b>03</b>Затягиваем лебёдкой</li>
+      <li><b>04</b>Поднимаем и крепим</li>
+      <li><b>05</b>Везём по адресу</li>
+    </ol>
+  </div>
+  </div>
+  <div class="wrap">
+    <div class="hero-stats">
         <div class="stat"><div class="num"><span>28</span> мин</div><div class="label">средний выезд по МКАД</div></div>
         <div class="stat"><div class="num"><span>24</span> экипажа</div><div class="label">на линии сейчас</div></div>
         <div class="stat"><div class="num"><span>7</span> лет</div><div class="label">эвакуируем без выходных</div></div>
       </div>
-    </div>
+  </div>
+  <div class="road-divider"></div>
+</section>
 
+
+<section class="evac-show" id="pogruzka">
+  <div class="wrap evac-live">
+    <div class="evac-live-text">
+      <span class="section-tag">Диспетчерская</span>
+      <h2>Прямо сейчас на линии</h2>
+      <p>Диспетчер видит все экипажи и отправляет ближайший. Звоните или оставьте заявку, и машина выедет к вам.</p>
+      <div class="hero-actions" style="margin:22px 0 0;">
+        <a href="tel:+79035054089" class="btn btn-primary">☎ Вызвать эвакуатор</a>
+        <button type="button" class="btn btn-ghost open-lead-modal-trigger">📋 Оставить заявку</button>
+      </div>
+    </div>
     <div class="dispatch-card reveal">
       <div id="beacon-3d-wrap" class="beacon-3d-wrap">
         <canvas id="beacon-3d-canvas"></canvas>
@@ -914,9 +1324,7 @@
       </div>
     </div>
   </div>
-  <div class="road-divider"></div>
 </section>
-
 
 <section class="calc-section" id="calc">
   <div class="wrap">
@@ -1032,22 +1440,22 @@
     <div class="process-list">
       <div class="process-step reveal">
         <div class="process-num">01</div>
-        <h4>Заявка</h4>
+        <h3>Заявка</h3>
         <p>Звонок, заявка на сайте или в мессенджере — диспетчер уточняет адрес и тип авто.</p>
       </div>
       <div class="process-step reveal">
         <div class="process-num">02</div>
-        <h4>Выезд экипажа</h4>
+        <h3>Выезд экипажа</h3>
         <p>Ближайший эвакуатор выезжает в течение 5–10 минут, вы видите время прибытия.</p>
       </div>
       <div class="process-step reveal">
         <div class="process-num">03</div>
-        <h4>Погрузка</h4>
+        <h3>Погрузка</h3>
         <p>Водитель осматривает автомобиль, подбирает способ погрузки и надёжно фиксирует его.</p>
       </div>
       <div class="process-step reveal">
         <div class="process-num">04</div>
-        <h4>Доставка</h4>
+        <h3>Доставка</h3>
         <p>Везём по указанному адресу — сервис, стоянку или домой, оплата по факту приезда.</p>
       </div>
     </div>
@@ -1067,6 +1475,60 @@
 </section>
 
 
+<section class="seo-about" id="o-nas">
+  <div class="wrap seo-grid">
+    <div class="section-head">
+      <span class="section-tag">Эвакуатор 24/7</span>
+      <h2>Эвакуация автомобилей по Москве и области</h2>
+    </div>
+    <div class="seo-text">
+      <p>«Эвак МСК» — служба эвакуации с собственным парком: <b>25 эвакуаторов</b>, среди них сдвижные платформы и краны-манипуляторы. Забираем легковые машины, кроссоверы, тяжёлые внедорожники и мототехнику после поломки, ДТП или со штрафстоянки и везём в сервис, к дилеру, на стоянку или домой.</p>
+      <h3>Где работаем чаще всего</h3>
+      <p>Выезжаем по всей Москве и Подмосковью до 100 км от МКАД. Больше всего вызовов на <b>Дмитровском шоссе</b>, в <b>Пушкино</b>, <b>Софрино</b> и других населённых пунктах Пушкинского округа, а также в Мытищах и Химках. Машины стоят на линии в разных районах, поэтому на вызов едет ближайший экипаж. Полный список — на странице <a class="inline-link" href="rayony.html">районов</a> и в <a class="inline-link" href="zona-vyezda.html">зоне выезда</a>.</p>
+      <h3>Платформа или манипулятор</h3>
+      <p>Сдвижная платформа подходит для большинства машин: автомобиль затягивают лебёдкой, колёса и бампер остаются целы. Манипулятор нужен, когда подъехать вплотную нельзя — машина во дворе, в кювете или зажата другими авто. Подробнее про виды работ — в разделе <a class="inline-link" href="uslugi.html">услуг</a>, цены — в <a class="inline-link" href="tarify.html">тарифах</a>.</p>
+      <h3>Сколько стоит</h3>
+      <p>Эвакуатор для легкового авто и кроссовера — от 4000 ₽, манипулятор — от 12 000 ₽. Цену можно узнать заранее в <a class="inline-link" href="#calc">калькуляторе</a>: отметьте на карте, откуда забрать машину и куда отвезти. Оплата по факту доставки.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Вопросы</span>
+      <h2>Частые вопросы об эвакуации</h2>
+      <p>Остальные ответы — на странице <a class="inline-link" href="voprosy.html">вопросов</a>.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">Сколько стоит эвакуатор в Москве?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Легковой автомобиль или кроссовер — от 4000 ₽: цена складывается из подачи и километража. Кран-манипулятор — от 12 000 ₽. Точную сумму покажет калькулятор на этой странице, диспетчер подтвердит её по телефону до выезда.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">Как быстро приедет эвакуатор?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Ближайший экипаж выезжает в течение 5–10 минут после звонка. В среднем по Москве в пределах МКАД эвакуатор приезжает примерно за 30 минут.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">Вы работаете ночью и в выходные?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Да. Диспетчерская принимает заявки круглосуточно, без выходных и праздников.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">Можно эвакуировать машину с заблокированными колёсами?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Да. Если колесо заблокировано стояночным тормозом, блокиратором или после ДТП, доплата составляет 1500 ₽. Когда машину нельзя закатить на платформу, используем кран-манипулятор.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">Когда нужно платить?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Оплата по факту — когда машина доставлена по указанному адресу: в сервис, на стоянку или домой.</p></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">В какие районы вы выезжаете?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>По всей Москве и Московской области до 100 км от МКАД. Чаще всего работаем по Дмитровскому шоссе, в Пушкино, Софрино и других городах Пушкинского округа, а также в Мытищах и Химках.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div class="footer-grid">
@@ -1076,7 +1538,7 @@
       </div>
       <div class="footer-col">
         <h5>Разделы</h5>
-        <a href="index.html#calc">Расчёт стоимости</a>
+        <a href="/#calc">Расчёт стоимости</a>
         <a href="uslugi.html">Услуги</a>
         <a href="tarify.html">Тарифы</a>
         <a href="zona-vyezda.html">Зона выезда</a>
@@ -1101,6 +1563,18 @@
 <a href="tel:+79035054089" class="sticky-call" aria-label="Позвонить">☎</a>
 <button type="button" class="sticky-form open-lead-modal-trigger" aria-label="Оставить заявку">📋</button>
 
+
+<aside class="urgent-pop" id="urgent-pop" role="dialog" aria-labelledby="urgent-pop-title" aria-hidden="true">
+  <button type="button" class="up-close" id="urgent-pop-close" aria-label="Закрыть">✕</button>
+  <div class="up-head"><span class="up-lights"><i></i><i></i></span><span class="up-tag">Срочный выезд</span></div>
+  <h4 id="urgent-pop-title">Машина встала прямо сейчас?</h4>
+  <p>Отправим ближайший эвакуатор, он выезжает в течение 5–10 минут. Цену диспетчер назовёт сразу по телефону.</p>
+  <div class="up-actions">
+    <a href="tel:+79035054089" class="btn btn-primary" id="urgent-pop-call">☎ Позвонить</a>
+    <button type="button" class="btn btn-ghost" id="urgent-pop-form">Заявка</button>
+  </div>
+  <span class="up-phone">+7 903 505-40-89 · круглосуточно</span>
+</aside>
 <div class="lead-modal-overlay" id="lead-modal-overlay">
   <div class="lead-modal">
     <button type="button" class="lead-modal-close" id="lead-modal-close">✕</button>
@@ -1164,9 +1638,11 @@
       if(isOpen){
         item.classList.remove('open');
         answer.style.maxHeight = null;
+        btn.setAttribute('aria-expanded','false');
       } else {
         item.classList.add('open');
         answer.style.maxHeight = answer.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded','true');
       }
     });
   });
@@ -1192,6 +1668,8 @@
     if(!link) return;
     if(link.id === 'call-cta'){
       trackGoal('call_after_calc');
+    } else if(link.id === 'hero-call'){
+      trackGoal('phone_click'); trackGoal('hero_call_click');
     } else {
       trackGoal('phone_click');
     }
@@ -1824,6 +2302,218 @@
       });
     }
   })();
+</script>
+
+<script>
+/* ---------- сцена погрузки эвакуатора ---------- */
+
+(function () {
+  const NS = "http://www.w3.org/2000/svg";
+  const $ = (id) => document.getElementById(id);
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // город и фонари
+  const city = $("ev-city");
+  let x = 0, seed = 7;
+  const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  while (x < 1200) {
+    const w = 40 + rnd() * 70, h = 50 + rnd() * 120;
+    const r = document.createElementNS(NS, "rect");
+    r.setAttribute("x", x); r.setAttribute("y", 300 - h); r.setAttribute("width", w); r.setAttribute("height", h);
+    city.appendChild(r);
+    for (let wy = 300 - h + 10; wy < 280; wy += 16) for (let wx = x + 8; wx < x + w - 8; wx += 14) {
+      if (rnd() > 0.82) {
+        const win = document.createElementNS(NS, "rect");
+        win.setAttribute("x", wx); win.setAttribute("y", wy); win.setAttribute("width", 5); win.setAttribute("height", 7);
+        win.setAttribute("fill", rnd() > .5 ? "#3a3220" : "#2b3038");
+        city.appendChild(win);
+      }
+    }
+    x += w + 6;
+  }
+  const lamps = $("ev-lamps");
+  for (let lx = 140; lx < 1200; lx += 320) {
+    lamps.insertAdjacentHTML("beforeend",
+      `<path d="M${lx},300 V168 Q${lx},158 ${lx + 14},158 H${lx + 34}" stroke="#2c3036" stroke-width="5" fill="none"/>
+       <rect x="${lx + 26}" y="156" width="20" height="6" rx="2" fill="#f7d48a"/>
+       <path d="M${lx - 30},300 L${lx + 36},162 L${lx + 100},300Z" fill="url(#ev-lampGlow)"/>`);
+  }
+  const dashes = $("ev-dashes");
+  for (let dx = 0; dx < 1200; dx += 120) dashes.insertAdjacentHTML("beforeend", `<rect x="${dx}" y="318" width="60" height="4"/>`);
+
+  // геометрия
+  const truck = $("ev-truck"), bed = $("ev-bed"), car = $("ev-car"), cable = $("ev-cable");
+  const tWheels = [...document.querySelectorAll("#ev-truck .tw")];
+  const cWheels = [...document.querySelectorAll("#ev-car .cw")];
+  const steps = [...document.querySelectorAll("#ev-steps li")];
+  const PIV = [330, 236], TILT = -10.5, SLIDE = -70;
+  const STOP = 430, CAR_X0 = 60, LOOP = 16;
+
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const seg = (t, a, b) => clamp((t - a) / (b - a), 0, 1);
+  const ease = (p) => p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+  const easeOut = (p) => 1 - Math.pow(1 - p, 3);
+  const easeIn = (p) => p * p * p;
+  const lerp = (a, b, p) => a + (b - a) * p;
+  const mStr = (m) => `matrix(${m.a},${m.b},${m.c},${m.d},${m.e},${m.f})`;
+
+  function bedMatrix(tx, slide, ang) {
+    return new DOMMatrix().translate(tx, 0).translate(slide, 0)
+      .translate(PIV[0], PIV[1]).rotate(ang).translate(-PIV[0], -PIV[1]);
+  }
+
+  function frame(t) {
+    // 1. подъезд задним ходом
+    let tx;
+    if (t < 3.6) tx = lerp(1320, STOP, easeOut(seg(t, 0, 3.6)));
+    else if (t < 11) tx = STOP;
+    else tx = lerp(STOP, 1500, easeIn(seg(t, 11, 14)));
+
+    // 2. платформа: сдвиг, потом наклон; 4. обратно
+    const down = seg(t, 3.7, 4.9), up = seg(t, 9.2, 10.6);
+    let slide = SLIDE * ease(clamp(down * 2, 0, 1)) * (1 - ease(clamp(up * 2 - 1, 0, 1)));
+    let ang = TILT * ease(clamp(down * 2 - 1, 0, 1)) * (1 - ease(clamp(up * 2, 0, 1)));
+
+    const tM = new DOMMatrix().translate(tx, 0);
+    const bM = bedMatrix(tx, slide, ang);
+    truck.setAttribute("transform", mStr(tM));
+    bed.setAttribute("transform", mStr(new DOMMatrix().translate(slide, 0).translate(PIV[0], PIV[1]).rotate(ang).translate(-PIV[0], -PIV[1])));
+
+    // 3. машина
+    let cM, carOn = false, carTravel = 0;
+    const tipFull = bedMatrix(STOP, SLIDE, TILT).transformPoint(new DOMPoint(0, 236));
+    const ax = tipFull.x - 232;
+    if (t < 5.2 || t > 14.6) {
+      cM = new DOMMatrix().translate(CAR_X0, 300);
+    } else if (t < 6.2) {
+      const p = ease(seg(t, 5.2, 6.2));
+      const px = lerp(CAR_X0, ax, p);
+      cM = new DOMMatrix().translate(px, 300); carTravel = px - CAR_X0;
+    } else if (t < 7) {
+      const f = ease(seg(t, 6.2, 7));
+      const B = bM.transformPoint(new DOMPoint(0, 222));
+      cM = new DOMMatrix().translate(lerp(ax, B.x, f), lerp(300, B.y, f)).rotate(TILT * f);
+      carTravel = lerp(ax, B.x, f) - CAR_X0;
+    } else {
+      const u = 150 * ease(seg(t, 7, 9.1));
+      const P = bM.transformPoint(new DOMPoint(u, 222));
+      cM = new DOMMatrix().translate(P.x, P.y).rotate(ang);
+      carOn = true; carTravel = (ax - CAR_X0) + 40 + u;
+    }
+    car.setAttribute("transform", mStr(cM));
+    car.style.opacity = t > 14.6 ? seg(t, 14.6, 15.4) : 1;
+
+    // колёса
+    const tRot = (tx / 26) * 57.3;
+    tWheels.forEach((w) => {
+      const m = w.getAttribute("transform").match(/translate\(([^)]+)\)/)[0];
+      w.setAttribute("transform", `${m} rotate(${tRot})`);
+    });
+    const cRot = carTravel / 18 * 57.3;
+    cWheels.forEach((w) => w.setAttribute("transform", `translate(${w.dataset.x},-18) rotate(${cRot})`));
+
+    // трос
+    if (t > 5 && t < 9.3) {
+      const a = bM.transformPoint(new DOMPoint(393, 208));
+      const b = cM.transformPoint(new DOMPoint(229, -26));
+      cable.setAttribute("x1", a.x); cable.setAttribute("y1", a.y);
+      cable.setAttribute("x2", b.x); cable.setAttribute("y2", b.y);
+      cable.setAttribute("opacity", Math.min(seg(t, 5, 5.3), 1 - seg(t, 9.1, 9.3)));
+      cable.setAttribute("stroke-dashoffset", -t * 30);
+    } else cable.setAttribute("opacity", 0);
+
+    // аварийка у машины до погрузки, маячок, задний ход
+    const blink = Math.floor(t * 2.2) % 2 === 0;
+    const hz = (t < 9.2 || t > 14.6) && blink ? 1 : 0.15;
+    $("ev-carTail").setAttribute("opacity", hz); $("ev-carHead").setAttribute("opacity", hz);
+    const ph = (t * 3) % 1;
+    $("ev-bL").setAttribute("fill", ph < .5 ? "#ffd36b" : "#6b4706");
+    $("ev-bR").setAttribute("fill", ph >= .5 ? "#ffd36b" : "#6b4706");
+    $("ev-bGlow").setAttribute("cx", ph < .5 ? 452 : 472);
+    $("ev-bGlow").setAttribute("opacity", .55 + .45 * Math.sin(t * 19));
+    $("ev-revLight").setAttribute("opacity", t < 3.6 ? (blink ? 1 : .3) : 0);
+
+    // шаги
+    const idx = t < 3.6 ? 0 : t < 5 ? 1 : t < 9.2 ? 2 : t < 10.9 ? 3 : 4;
+    steps.forEach((li, i) => li.classList.toggle("on", i === idx));
+  }
+
+  if (reduce) {
+    frame(10.8);
+  } else {
+    let start = performance.now(), visible = true, raf = 0, pausedAt = 0;
+    const loop = (now) => { frame(((now - start) / 1000) % LOOP); raf = requestAnimationFrame(loop); };
+    raf = requestAnimationFrame(loop);
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver((en) => {
+        const v = en[0].isIntersecting;
+        if (v && !visible) { start += performance.now() - pausedAt; raf = requestAnimationFrame(loop); }
+        if (!v && visible) { pausedAt = performance.now(); cancelAnimationFrame(raf); }
+        visible = v;
+      }).observe($("ev-scene"));
+    }
+  }
+
+})();
+</script>
+
+<script>
+/* ---------- всплывающее окно «срочный эвакуатор» при прокрутке ---------- */
+(function(){
+  var pop = document.getElementById('urgent-pop');
+  if(!pop) return;
+  var KEY = 'evak_urgent_pop_done';
+  function done(){ try{ return sessionStorage.getItem(KEY) === '1'; }catch(e){ return false; } }
+  function markDone(){ try{ sessionStorage.setItem(KEY, '1'); }catch(e){} }
+  function goal(id){ if(typeof trackGoal === 'function'){ trackGoal(id); } }
+  if(done()) return;
+
+  var shown = false, start = Date.now();
+  function busy(){
+    var modal = document.getElementById('lead-modal-overlay');
+    if(modal && modal.classList.contains('show')) return true;
+    var a = document.activeElement;
+    return a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.tagName === 'SELECT');
+  }
+  function show(){
+    if(shown || done() || busy()) return;
+    shown = true;
+    pop.classList.add('show');
+    pop.setAttribute('aria-hidden', 'false');
+    goal('urgent_popup_show');
+    window.removeEventListener('scroll', onScroll);
+  }
+  function hide(){
+    pop.classList.remove('show');
+    pop.setAttribute('aria-hidden', 'true');
+    markDone();
+  }
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? window.scrollY / h : 0;
+    var secs = (Date.now() - start) / 1000;
+    /* показываем, когда человек прокрутил треть страницы и провёл на сайте хотя бы 12 секунд */
+    if(p > 0.33 && secs > 12) show();
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  /* запасной вариант: 45 секунд на странице и хоть немного прокрутки */
+  setTimeout(function(){ if(window.scrollY > 300) show(); }, 45000);
+
+  /* уже звонил или открыл заявку — окно не нужно */
+  document.addEventListener('click', function(e){
+    if(e.target.closest('a[href^="tel:"], .open-lead-modal-trigger') && !pop.contains(e.target)){
+      markDone(); if(shown) hide();
+    }
+  });
+  document.getElementById('urgent-pop-close').addEventListener('click', function(){ hide(); goal('urgent_popup_close'); });
+  document.getElementById('urgent-pop-call').addEventListener('click', function(){ goal('urgent_popup_call'); hide(); });
+  document.getElementById('urgent-pop-form').addEventListener('click', function(){
+    goal('urgent_popup_form'); hide();
+    var t = document.querySelector('.sticky-form.open-lead-modal-trigger') || document.querySelector('.open-lead-modal-trigger');
+    if(t) t.click();
+  });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && shown) hide(); });
+})();
 </script>
 
 <script>window.CT1_BASE_URL='https://calltreckingone.ru';</script>
