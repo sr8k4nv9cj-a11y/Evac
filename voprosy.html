@@ -6,7 +6,7 @@
 <title>Вопросы и ответы про эвакуацию авто | Эвак МСК</title>
 <meta name="description" content="Частые вопросы про эвакуатор: сколько ждать ночью, что делать с заблокированным колесом, эвакуация АКПП, стоимость после ДТП и другое.">
 <meta name="keywords" content="эвакуатор вопросы, сколько ждать эвакуатор, заблокировано колесо, эвакуация акпп, эвакуатор после дтп">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="author" content="Эвак МСК">
 <link rel="canonical" href="https://evacmsc.ru/voprosy.html">
 
@@ -17,9 +17,13 @@
 <meta property="og:title" content="Вопросы и ответы про эвакуацию авто | Эвак МСК">
 <meta property="og:description" content="Частые вопросы про эвакуатор: сколько ждать ночью, что делать с заблокированным колесом, эвакуация АКПП, стоимость после ДТП и другое.">
 <meta property="og:url" content="https://evacmsc.ru/voprosy.html">
+<meta property="og:image" content="https://evacmsc.ru/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 
 <!-- Twitter Card -->
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://evacmsc.ru/og-image.png">
 <meta name="twitter:title" content="Вопросы и ответы про эвакуацию авто | Эвак МСК">
 <meta name="twitter:description" content="Частые вопросы про эвакуатор: сколько ждать ночью, что делать с заблокированным колесом, эвакуация АКПП, стоимость после ДТП и другое.">
 
@@ -176,7 +180,7 @@
   a{color:inherit; text-decoration:none;}
   img{max-width:100%; display:block;}
   .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
-  h1,h2,h3,h4{font-family:'Unbounded', sans-serif; line-height:1.15; letter-spacing:-0.01em;}
+  h1,h2,h3,h4, h4{font-family:'Unbounded', sans-serif; line-height:1.15; letter-spacing:-0.01em;}
   .mono{font-family:'JetBrains Mono', monospace;}
 
   /* ---------- ambient road-line background ---------- */
@@ -578,7 +582,7 @@
     background:var(--surface-2); border:1px solid var(--line);
     display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:18px;
   }
-  .service-card h4{font-size:16.5px; margin-bottom:8px;}
+  .service-card h4, .service-card h3{font-size:16.5px; margin-bottom:8px;}
   .service-card p{font-size:13.5px; color:var(--text-dim);}
   .service-card .price-tag{
     margin-top:14px; font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--route);
@@ -599,7 +603,7 @@
     font-family:'JetBrains Mono', monospace; font-weight:700; color:var(--beacon);
     margin-bottom:20px; position:relative; z-index:2;
   }
-  .process-step h4{font-size:16px; margin-bottom:8px;}
+  .process-step h4, .process-step h3{font-size:16px; margin-bottom:8px;}
   .process-step p{font-size:13.5px; color:var(--text-dim);}
 
   /* ---------- coverage ---------- */
@@ -664,7 +668,7 @@
   .area-card{
     background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:22px;
   }
-  .area-card h4{font-size:15.5px; margin-bottom:10px; color:var(--beacon);}
+  .area-card h4, .area-card h3{font-size:15.5px; margin-bottom:10px; color:var(--beacon);}
   .area-card p{font-size:13.5px; color:var(--text-dim); line-height:1.65;}
 
   /* ---------- pricing ---------- */
@@ -859,13 +863,14 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/111240548" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://evacmsc.ru/"}, {"@type": "ListItem", "position": 2, "name": "Вопросы и ответы", "item": "https://evacmsc.ru/voprosy.html"}]}</script>
 </head>
 <body>
 <header>
   <div class="nav wrap">
-    <a href="index.html" class="logo"><span class="beacon-dot"></span>Эвак <span style="color:var(--beacon)">МСК</span></a>
+    <a href="/" class="logo"><span class="beacon-dot"></span>Эвак <span style="color:var(--beacon)">МСК</span></a>
     <nav class="nav-links">
-      <a href="index.html#calc">Расчёт стоимости</a>
+      <a href="/#calc">Расчёт стоимости</a>
       <a href="uslugi.html">Услуги</a>
       <a href="tarify.html">Тарифы</a>
       <a href="zona-vyezda.html">Зона выезда</a>
@@ -896,7 +901,7 @@
           <span>Сколько стоит эвакуатор в Москве и области?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer"><p>Стоимость складывается из подачи и километража. Легковой автомобиль — от 4 000 ₽ плюс 100 ₽/км, кроссовер или джип — от 5 000 ₽ плюс 100 ₽/км. Манипулятор — 150 ₽/км плюс подача: 12 000 ₽ для седана, 13 000 ₽ для кроссовера или джипа, 15 000 ₽ для тяжёлого джипа. Разблокировка колеса — 1 500 ₽, ожидание свыше 15 минут — 300 ₽ за каждые следующие 15 минут. Полная <a href="tarify.html" class="inline-link">таблица тарифов</a> — по ссылке; точную цену под ваш маршрут покажет <a href="index.html#calc" class="inline-link">калькулятор на главной</a>, окончательную сумму подтверждает диспетчер.</p></div>
+        <div class="faq-answer"><p>Стоимость складывается из подачи и километража. Легковой автомобиль — от 4 000 ₽ плюс 100 ₽/км, кроссовер или джип — от 5 000 ₽ плюс 100 ₽/км. Манипулятор — 150 ₽/км плюс подача: 12 000 ₽ для седана, 13 000 ₽ для кроссовера или джипа, 15 000 ₽ для тяжёлого джипа. Разблокировка колеса — 1 500 ₽, ожидание свыше 15 минут — 300 ₽ за каждые следующие 15 минут. Полная <a href="tarify.html" class="inline-link">таблица тарифов</a> — по ссылке; точную цену под ваш маршрут покажет <a href="/#calc" class="inline-link">калькулятор на главной</a>, окончательную сумму подтверждает диспетчер.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" type="button">
@@ -969,7 +974,7 @@
       <h2>Машина сломалась не вовремя.<br>Мы приедем вовремя.</h2>
       <p>Рассчитайте стоимость на карте или позвоните — и мы уже выезжаем.</p>
       <div class="hero-actions">
-        <a href="index.html#calc" class="btn btn-primary">Рассчитать стоимость</a>
+        <a href="/#calc" class="btn btn-primary">Рассчитать стоимость</a>
         <a href="tel:+79035054089" class="btn btn-ghost">☎ +7 903 505-40-89</a>
       </div>
     </div>
@@ -986,8 +991,9 @@
       </div>
       <div class="footer-col">
         <h5>Разделы</h5>
-        <a href="index.html#calc">Расчёт стоимости</a>
+        <a href="/#calc">Расчёт стоимости</a>
         <a href="uslugi.html">Услуги</a>
+        <a href="gruzovaya-evakuaciya.html">Грузовая эвакуация</a>
         <a href="tarify.html">Тарифы</a>
         <a href="zona-vyezda.html">Зона выезда</a>
         <a href="voprosy.html">Вопросы</a>

@@ -6,7 +6,7 @@
 <title>Услуги эвакуации — легковые, кроссоверы, манипулятор | Эвак МСК</title>
 <meta name="description" content="Полный список услуг эвакуации в Москве: легковые авто, кроссоверы и джипы, манипулятор, эвакуация после ДТП, разблокировка колеса. Цены и условия.">
 <meta name="keywords" content="услуги эвакуатора, эвакуация легковых, эвакуация кроссоверов, манипулятор для авто, эвакуация после дтп, разблокировка колеса">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="author" content="Эвак МСК">
 <link rel="canonical" href="https://evacmsc.ru/uslugi.html">
 
@@ -17,9 +17,13 @@
 <meta property="og:title" content="Услуги эвакуации — легковые, кроссоверы, манипулятор | Эвак МСК">
 <meta property="og:description" content="Полный список услуг эвакуации в Москве: легковые авто, кроссоверы и джипы, манипулятор, эвакуация после ДТП, разблокировка колеса. Цены и условия.">
 <meta property="og:url" content="https://evacmsc.ru/uslugi.html">
+<meta property="og:image" content="https://evacmsc.ru/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 
 <!-- Twitter Card -->
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://evacmsc.ru/og-image.png">
 <meta name="twitter:title" content="Услуги эвакуации — легковые, кроссоверы, манипулятор | Эвак МСК">
 <meta name="twitter:description" content="Полный список услуг эвакуации в Москве: легковые авто, кроссоверы и джипы, манипулятор, эвакуация после ДТП, разблокировка колеса. Цены и условия.">
 
@@ -103,7 +107,7 @@
   a{color:inherit; text-decoration:none;}
   img{max-width:100%; display:block;}
   .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
-  h1,h2,h3,h4{font-family:'Unbounded', sans-serif; line-height:1.15; letter-spacing:-0.01em;}
+  h1,h2,h3,h4, h4{font-family:'Unbounded', sans-serif; line-height:1.15; letter-spacing:-0.01em;}
   .mono{font-family:'JetBrains Mono', monospace;}
 
   /* ---------- ambient road-line background ---------- */
@@ -505,7 +509,7 @@
     background:var(--surface-2); border:1px solid var(--line);
     display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:18px;
   }
-  .service-card h4{font-size:16.5px; margin-bottom:8px;}
+  .service-card h4, .service-card h3{font-size:16.5px; margin-bottom:8px;}
   .service-card p{font-size:13.5px; color:var(--text-dim);}
   .service-card .price-tag{
     margin-top:14px; font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--route);
@@ -526,7 +530,7 @@
     font-family:'JetBrains Mono', monospace; font-weight:700; color:var(--beacon);
     margin-bottom:20px; position:relative; z-index:2;
   }
-  .process-step h4{font-size:16px; margin-bottom:8px;}
+  .process-step h4, .process-step h3{font-size:16px; margin-bottom:8px;}
   .process-step p{font-size:13.5px; color:var(--text-dim);}
 
   /* ---------- coverage ---------- */
@@ -591,7 +595,7 @@
   .area-card{
     background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:22px;
   }
-  .area-card h4{font-size:15.5px; margin-bottom:10px; color:var(--beacon);}
+  .area-card h4, .area-card h3{font-size:15.5px; margin-bottom:10px; color:var(--beacon);}
   .area-card p{font-size:13.5px; color:var(--text-dim); line-height:1.65;}
 
   /* ---------- pricing ---------- */
@@ -772,6 +776,18 @@
   .lead-success .ico{font-size:42px; margin-bottom:14px;}
   .lead-success h3{margin-bottom:10px;}
   .lead-success p{color:var(--text-dim); font-size:14px; margin-bottom:22px; line-height:1.5;}
+
+  /* ---------- дополнительный SEO-текст ---------- */
+  .seo-more{display:grid; gap:34px; margin:56px 0 8px; max-width:880px;}
+  .seo-more h2{font-size:clamp(22px,2.6vw,30px); margin-bottom:12px;}
+  .seo-more p, .seo-more li{color:var(--text-dim); font-size:15px; line-height:1.7;}
+  .seo-more ul{padding-left:20px; display:grid; gap:6px; margin-top:6px;}
+  .seo-more b{color:var(--text);}
+  .calc-examples{width:100%; border-collapse:collapse; background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-top:6px;}
+  .calc-examples td, .calc-examples th{padding:12px 16px; border-bottom:1px solid var(--line); font-size:14px; text-align:left; vertical-align:top;}
+  .calc-examples th{font-family:'JetBrains Mono', monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-dim-2); background:var(--surface-2);}
+  .calc-examples td.sum{font-family:'JetBrains Mono', monospace; color:var(--beacon); font-weight:700; white-space:nowrap;}
+  .calc-examples tr:last-child td{border-bottom:none;}
 </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -786,13 +802,15 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/111240548" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://evacmsc.ru/"}, {"@type": "ListItem", "position": 2, "name": "Услуги", "item": "https://evacmsc.ru/uslugi.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "name": "Услуги эвакуации Эвак МСК", "itemListElement": [{"@type": "ListItem", "position": 1, "item": {"@type": "Service", "name": "Эвакуация легкового автомобиля", "provider": {"@type": "AutomotiveBusiness", "name": "Эвак МСК", "url": "https://evacmsc.ru/", "telephone": "+7-903-505-40-89"}, "areaServed": "Москва и Московская область", "offers": {"@type": "Offer", "priceCurrency": "RUB", "price": 4000, "priceSpecification": {"@type": "PriceSpecification", "minPrice": 4000, "priceCurrency": "RUB"}}}}, {"@type": "ListItem", "position": 2, "item": {"@type": "Service", "name": "Эвакуация кроссовера или джипа", "provider": {"@type": "AutomotiveBusiness", "name": "Эвак МСК", "url": "https://evacmsc.ru/", "telephone": "+7-903-505-40-89"}, "areaServed": "Москва и Московская область", "offers": {"@type": "Offer", "priceCurrency": "RUB", "price": 5000, "priceSpecification": {"@type": "PriceSpecification", "minPrice": 5000, "priceCurrency": "RUB"}}}}, {"@type": "ListItem", "position": 3, "item": {"@type": "Service", "name": "Эвакуация манипулятором — седан", "provider": {"@type": "AutomotiveBusiness", "name": "Эвак МСК", "url": "https://evacmsc.ru/", "telephone": "+7-903-505-40-89"}, "areaServed": "Москва и Московская область", "offers": {"@type": "Offer", "priceCurrency": "RUB", "price": 12000, "priceSpecification": {"@type": "PriceSpecification", "minPrice": 12000, "priceCurrency": "RUB"}}}}, {"@type": "ListItem", "position": 4, "item": {"@type": "Service", "name": "Эвакуация манипулятором — кроссовер или джип", "provider": {"@type": "AutomotiveBusiness", "name": "Эвак МСК", "url": "https://evacmsc.ru/", "telephone": "+7-903-505-40-89"}, "areaServed": "Москва и Московская область", "offers": {"@type": "Offer", "priceCurrency": "RUB", "price": 13000, "priceSpecification": {"@type": "PriceSpecification", "minPrice": 13000, "priceCurrency": "RUB"}}}}, {"@type": "ListItem", "position": 5, "item": {"@type": "Service", "name": "Эвакуация манипулятором — тяжёлый джип", "provider": {"@type": "AutomotiveBusiness", "name": "Эвак МСК", "url": "https://evacmsc.ru/", "telephone": "+7-903-505-40-89"}, "areaServed": "Москва и Московская область", "offers": {"@type": "Offer", "priceCurrency": "RUB", "price": 15000, "priceSpecification": {"@type": "PriceSpecification", "minPrice": 15000, "priceCurrency": "RUB"}}}}, {"@type": "ListItem", "position": 6, "item": {"@type": "Service", "name": "Разблокировка колеса", "provider": {"@type": "AutomotiveBusiness", "name": "Эвак МСК", "url": "https://evacmsc.ru/", "telephone": "+7-903-505-40-89"}, "areaServed": "Москва и Московская область", "offers": {"@type": "Offer", "priceCurrency": "RUB", "price": 1500, "priceSpecification": {"@type": "PriceSpecification", "minPrice": 1500, "priceCurrency": "RUB"}}}}]}</script>
 </head>
 <body>
 <header>
   <div class="nav wrap">
-    <a href="index.html" class="logo"><span class="beacon-dot"></span>Эвак <span style="color:var(--beacon)">МСК</span></a>
+    <a href="/" class="logo"><span class="beacon-dot"></span>Эвак <span style="color:var(--beacon)">МСК</span></a>
     <nav class="nav-links">
-      <a href="index.html#calc">Расчёт стоимости</a>
+      <a href="/#calc">Расчёт стоимости</a>
       <a href="uslugi.html">Услуги</a>
       <a href="tarify.html">Тарифы</a>
       <a href="zona-vyezda.html">Зона выезда</a>
@@ -820,49 +838,77 @@
     <div class="services-grid">
       <div class="service-card reveal">
         <div class="ico">🚗</div>
-        <h4>Легковые автомобили</h4>
+        <h3>Легковые автомобили</h3>
         <p>Погрузка на платформу или частичная погрузка — сохраняем клиренс и подвеску.</p>
         <a href="tarify.html" class="price-tag" style="display:inline-block;">от 4 000 ₽</a>
       </div>
       <div class="service-card reveal">
         <div class="ico">🚙</div>
-        <h4>Кроссоверы и джипы</h4>
+        <h3>Кроссоверы и джипы</h3>
         <p>Усиленные платформы для тяжёлых и высоких автомобилей, в том числе с полным приводом.</p>
         <a href="tarify.html" class="price-tag" style="display:inline-block;">от 5 000 ₽</a>
       </div>
       <div class="service-card reveal">
         <div class="ico">🏗️</div>
-        <h4>Манипулятор — седаны</h4>
+        <h3>Манипулятор — седаны</h3>
         <p>Погрузка манипулятором без буксировки, когда платформой не подъехать или машина не на ходу. Подробнее — в <a href="voprosy.html" class="inline-link">вопросах про АКПП</a>.</p>
         <a href="tarify.html" class="price-tag" style="display:inline-block;">12 000 ₽</a>
       </div>
       <div class="service-card reveal">
         <div class="ico">🏗️</div>
-        <h4>Манипулятор — кроссоверы / джипы</h4>
+        <h3>Манипулятор — кроссоверы / джипы</h3>
         <p>Тот же принцип погрузки для более тяжёлых и высоких автомобилей.</p>
         <a href="tarify.html" class="price-tag" style="display:inline-block;">13 000 ₽</a>
       </div>
       <div class="service-card reveal">
         <div class="ico">🏗️</div>
-        <h4>Манипулятор — тяжёлые джипы</h4>
+        <h3>Манипулятор — тяжёлые джипы</h3>
         <p>Для крупных внедорожников и рамных джипов, где нужен усиленный манипулятор.</p>
         <a href="tarify.html" class="price-tag" style="display:inline-block;">15 000 ₽</a>
       </div>
       <div class="service-card reveal">
         <div class="ico">🔓</div>
-        <h4>Заблокированное колесо</h4>
+        <h3>Заблокированное колесо</h3>
         <p>Снимаем блокировку стояночного тормоза или колёсного блокиратора прямо на месте.</p>
         <a href="tarify.html" class="price-tag" style="display:inline-block;">1 500 ₽</a>
       </div>
     </div>
 
+    <div class="seo-more">
+      <div>
+        <h2>Платформа или манипулятор: что выбрать</h2>
+        <p><b>Сдвижная платформа</b> подходит для большинства легковых машин и кроссоверов. Платформу опускают, автомобиль затягивают лебёдкой и крепят на четыре точки. Колёса во время перевозки не вращаются, поэтому так безопасно возить машины на АКПП, вариаторе и с полным приводом.</p>
+        <p><b>Кран-манипулятор</b> нужен, когда платформа не может подъехать вплотную: тесный двор, плотно заставленная парковка, кювет или обочина без съезда. Машину поднимают стрелой на стропах и ставят на борт.</p>
+        <p>Если не уверены, какой вариант нужен, опишите ситуацию диспетчеру по телефону <a href="tel:+79035054089" class="inline-link">+7 903 505-40-89</a>, он подберёт технику.</p>
+      </div>
+      <div>
+        <h2>Когда вызывают эвакуатор</h2>
+        <ul>
+          <li>машина не заводится или сломалась в дороге;</li>
+          <li>после ДТП автомобиль не может ехать своим ходом;</li>
+          <li>нужно отвезти машину в сервис, к дилеру или на покраску;</li>
+          <li>колесо заблокировано стояночным тормозом или блокиратором;</li>
+          <li>перевозка автомобиля между городами Московской области.</li>
+        </ul>
+        <p>Грузовики, Газели и спецтехнику возим отдельным парком, подробности на странице <a href="gruzovaya-evakuaciya.html" class="inline-link">грузовой эвакуации</a>.</p>
+      </div>
+      <div>
+        <h2>Что подготовить к приезду эвакуатора</h2>
+        <ul>
+          <li>ключи и документы на автомобиль (СТС);</li>
+          <li>точный адрес, куда везти машину;</li>
+          <li>если было ДТП, сначала оформите его, а потом грузите машину;</li>
+          <li>сообщите водителю о повреждениях, которые уже есть на кузове.</li>
+        </ul>
+      </div>
+    </div>
     <div class="related-links reveal">
       <span class="rl-label">Смотрите также</span>
       <div class="rl-row">
         <a href="tarify.html">Все тарифы <span class="arrow">→</span></a>
         <a href="zona-vyezda.html">Зона выезда <span class="arrow">→</span></a>
         <a href="voprosy.html">Частые вопросы <span class="arrow">→</span></a>
-        <a href="index.html#calc">Рассчитать стоимость <span class="arrow">→</span></a>
+        <a href="/#calc">Рассчитать стоимость <span class="arrow">→</span></a>
       </div>
     </div>
   </div>
@@ -876,7 +922,7 @@
       <h2>Машина сломалась не вовремя.<br>Мы приедем вовремя.</h2>
       <p>Рассчитайте стоимость на карте или позвоните — и мы уже выезжаем.</p>
       <div class="hero-actions">
-        <a href="index.html#calc" class="btn btn-primary">Рассчитать стоимость</a>
+        <a href="/#calc" class="btn btn-primary">Рассчитать стоимость</a>
         <a href="tel:+79035054089" class="btn btn-ghost">☎ +7 903 505-40-89</a>
       </div>
     </div>
@@ -893,8 +939,9 @@
       </div>
       <div class="footer-col">
         <h5>Разделы</h5>
-        <a href="index.html#calc">Расчёт стоимости</a>
+        <a href="/#calc">Расчёт стоимости</a>
         <a href="uslugi.html">Услуги</a>
+        <a href="gruzovaya-evakuaciya.html">Грузовая эвакуация</a>
         <a href="tarify.html">Тарифы</a>
         <a href="zona-vyezda.html">Зона выезда</a>
         <a href="voprosy.html">Вопросы</a>
