@@ -1040,41 +1040,56 @@
   .evac-steps li.on b{color:var(--beacon);}
   @media (max-width:600px){ .evac-steps{display:block; margin-top:14px;} .evac-steps li{display:none;} .evac-steps li.on{display:block;} .evac-show{padding:56px 0 44px;} }
 
-  /* ---------- всплывающее окно при прокрутке ---------- */
-  .urgent-pop{
-    position:fixed; left:24px; bottom:24px; z-index:300;
-    width:min(360px, calc(100vw - 48px));
-    background:var(--surface); border:1px solid var(--line); border-radius:18px;
-    padding:18px 18px 16px; box-shadow:0 24px 60px rgba(0,0,0,.55);
-    transform:translateY(calc(100% + 40px)); opacity:0; visibility:hidden;
-    transition:transform .5s cubic-bezier(.2,.9,.3,1.15), opacity .3s ease, visibility 0s linear .5s;
-    overflow:hidden;
+  /* ---------- всплывающее окно «срочный выезд» (по центру, с затемнением) ---------- */
+  .urgent-overlay{
+    position:fixed; inset:0; z-index:450;
+    display:flex; align-items:center; justify-content:center;
+    padding:max(20px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(20px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    background:rgba(8,10,14,.82); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    opacity:0; visibility:hidden; transition:opacity .35s ease, visibility 0s linear .35s;
   }
-  .urgent-pop.show{transform:translateY(0); opacity:1; visibility:visible; transition:transform .5s cubic-bezier(.2,.9,.3,1.15), opacity .3s ease;}
+  .urgent-overlay.show{opacity:1; visibility:visible; transition:opacity .35s ease;}
+  .urgent-pop{
+    position:relative; width:min(480px, 100%); max-height:100%; overflow-y:auto;
+    background:var(--surface); border:1px solid var(--line); border-radius:24px;
+    padding:30px 28px 24px; box-shadow:0 40px 90px rgba(0,0,0,.6);
+    text-align:center;
+    transform:translateY(40px) scale(.94); transition:transform .5s cubic-bezier(.2,.9,.3,1.2);
+  }
+  .urgent-overlay.show .urgent-pop{transform:none;}
   .urgent-pop::before{
-    content:''; position:absolute; left:0; right:0; top:0; height:4px;
-    background:repeating-linear-gradient(90deg, var(--beacon) 0 14px, #14171c 14px 28px);
+    content:''; position:absolute; left:0; right:0; top:0; height:8px;
+    background:repeating-linear-gradient(90deg, var(--beacon) 0 18px, #14171c 18px 36px);
   }
   .urgent-pop .up-close{
-    position:absolute; top:12px; right:12px; width:30px; height:30px; border-radius:50%;
+    position:absolute; top:18px; right:16px; width:38px; height:38px; border-radius:50%;
     background:var(--surface-2); border:1px solid var(--line); color:var(--text-dim);
-    cursor:pointer; font-size:15px; line-height:1; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:17px; line-height:1; display:flex; align-items:center; justify-content:center;
   }
   .urgent-pop .up-close:hover{color:var(--text); border-color:var(--beacon);}
-  .urgent-pop .up-head{display:flex; align-items:center; gap:10px; margin:6px 36px 10px 0;}
-  .urgent-pop .up-lights{display:flex; gap:4px;}
-  .urgent-pop .up-lights i{width:10px; height:10px; border-radius:3px; background:var(--beacon); animation:upBlink .9s steps(1) infinite;}
-  .urgent-pop .up-lights i:last-child{animation-delay:.45s;}
-  @keyframes upBlink{0%{opacity:1; box-shadow:0 0 12px rgba(255,176,32,.8);} 50%{opacity:.2; box-shadow:none;}}
-  .urgent-pop .up-tag{font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--beacon);}
-  .urgent-pop h4{font-size:18px; margin-bottom:6px;}
-  .urgent-pop p{font-size:13.5px; color:var(--text-dim); margin-bottom:14px;}
-  .urgent-pop .up-actions{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
-  .urgent-pop .btn{padding:11px 12px; font-size:13.5px;}
-  .urgent-pop .up-phone{display:block; margin-top:10px; font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--text-dim-2); text-align:center;}
-  @media (max-width:600px){
-    .urgent-pop{left:12px; right:12px; bottom:12px; width:auto;}
+  .urgent-pop .up-beacon{position:relative; width:110px; height:64px; margin:6px auto 14px;}
+  .urgent-pop .up-beacon .dome{position:absolute; left:50%; bottom:10px; width:56px; height:40px; margin-left:-28px; border-radius:28px 28px 6px 6px; background:linear-gradient(180deg,#ffd36b,var(--beacon)); animation:upPulse .9s steps(1) infinite;}
+  .urgent-pop .up-beacon .base{position:absolute; left:50%; bottom:0; width:80px; height:12px; margin-left:-40px; border-radius:4px; background:var(--surface-3);}
+  .urgent-pop .up-beacon::before, .urgent-pop .up-beacon::after{content:''; position:absolute; top:22px; width:34px; height:4px; border-radius:2px; background:var(--beacon); animation:upPulse .9s steps(1) infinite;}
+  .urgent-pop .up-beacon::before{left:0; transform:rotate(-12deg);}
+  .urgent-pop .up-beacon::after{right:0; transform:rotate(12deg); animation-delay:.45s;}
+  @keyframes upPulse{0%{opacity:1; box-shadow:0 0 28px 6px rgba(255,176,32,.55);} 50%{opacity:.25; box-shadow:none;}}
+  .urgent-pop .up-tag{display:block; font-family:'JetBrains Mono', monospace; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--beacon); margin-bottom:10px;}
+  .urgent-pop h4{font-size:clamp(24px, 4.5vw, 30px); line-height:1.15; margin-bottom:10px; text-wrap:balance;}
+  .urgent-pop p{font-size:15px; color:var(--text-dim); margin:0 auto 22px; max-width:36ch;}
+  .urgent-pop .up-call{
+    display:flex; align-items:center; justify-content:center; gap:12px; width:100%;
+    padding:18px 20px; border-radius:16px;
+    background:linear-gradient(135deg, var(--beacon), var(--beacon-2)); color:#181206;
+    font-family:'Unbounded', sans-serif; font-weight:800; font-size:clamp(17px, 3.6vw, 20px);
+    box-shadow:0 14px 36px rgba(255,122,69,.4);
   }
+  .urgent-pop .up-call small{display:block; font-family:'JetBrains Mono', monospace; font-weight:600; font-size:13px; opacity:.8; margin-top:3px;}
+  .urgent-pop .up-call:hover{transform:translateY(-2px);}
+  .urgent-pop .up-form{width:100%; margin-top:10px; padding:14px; font-size:14.5px;}
+  .urgent-pop .up-later{display:inline-block; margin-top:14px; background:none; border:0; color:var(--text-dim-2); font-size:13px; cursor:pointer; text-decoration:underline; text-underline-offset:3px; font-family:inherit;}
+  .urgent-pop .up-later:hover{color:var(--text-dim);}
+  html.up-lock, html.up-lock body{overflow:hidden;}
 
   /* ---------- большая кнопка вызова на первом экране ---------- */
   .hero-call{
@@ -1586,17 +1601,18 @@
 <button type="button" class="sticky-form open-lead-modal-trigger" aria-label="Оставить заявку">📋</button>
 
 
-<aside class="urgent-pop" id="urgent-pop" role="dialog" aria-labelledby="urgent-pop-title" aria-hidden="true">
-  <button type="button" class="up-close" id="urgent-pop-close" aria-label="Закрыть">✕</button>
-  <div class="up-head"><span class="up-lights"><i></i><i></i></span><span class="up-tag">Срочный выезд</span></div>
-  <h4 id="urgent-pop-title">Машина встала прямо сейчас?</h4>
-  <p>Отправим ближайший эвакуатор, он выезжает в течение 5–10 минут. Цену диспетчер назовёт сразу по телефону.</p>
-  <div class="up-actions">
-    <a href="tel:+79035054089" class="btn btn-primary" id="urgent-pop-call">☎ Позвонить</a>
-    <button type="button" class="btn btn-ghost" id="urgent-pop-form">Заявка</button>
-  </div>
-  <span class="up-phone">+7 903 505-40-89 · круглосуточно</span>
-</aside>
+<div class="urgent-overlay" id="urgent-overlay" aria-hidden="true">
+  <aside class="urgent-pop" id="urgent-pop" role="dialog" aria-modal="true" aria-labelledby="urgent-pop-title">
+    <button type="button" class="up-close" id="urgent-pop-close" aria-label="Закрыть">✕</button>
+    <div class="up-beacon" aria-hidden="true"><span class="dome"></span><span class="base"></span></div>
+    <span class="up-tag">Срочный выезд · 24/7</span>
+    <h4 id="urgent-pop-title">Машина встала прямо сейчас?</h4>
+    <p>Отправим ближайший эвакуатор, он выезжает в течение 5–10 минут. Цену диспетчер назовёт сразу по телефону.</p>
+    <a href="tel:+79035054089" class="up-call" id="urgent-pop-call"><span aria-hidden="true">☎</span><span>Позвонить диспетчеру<small>+7 903 505-40-89</small></span></a>
+    <button type="button" class="btn btn-ghost up-form" id="urgent-pop-form">📋 Оставить заявку</button>
+    <button type="button" class="up-later" id="urgent-pop-later">Спасибо, просто смотрю</button>
+  </aside>
+</div>
 <div class="lead-modal-overlay" id="lead-modal-overlay">
   <div class="lead-modal">
     <button type="button" class="lead-modal-close" id="lead-modal-close">✕</button>
@@ -2483,7 +2499,8 @@
 /* ---------- всплывающее окно «срочный эвакуатор» при прокрутке ---------- */
 (function(){
   var pop = document.getElementById('urgent-pop');
-  if(!pop) return;
+  var ov = document.getElementById('urgent-overlay');
+  if(!pop || !ov) return;
   var KEY = 'evak_urgent_pop_done';
   function done(){ try{ return sessionStorage.getItem(KEY) === '1'; }catch(e){ return false; } }
   function markDone(){ try{ sessionStorage.setItem(KEY, '1'); }catch(e){} }
@@ -2500,14 +2517,17 @@
   function show(){
     if(shown || done() || busy()) return;
     shown = true;
-    pop.classList.add('show');
-    pop.setAttribute('aria-hidden', 'false');
+    ov.classList.add('show');
+    ov.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('up-lock');
+    setTimeout(function(){ try{ document.getElementById('urgent-pop-call').focus(); }catch(e){} }, 400);
     goal('urgent_popup_show');
     window.removeEventListener('scroll', onScroll);
   }
   function hide(){
-    pop.classList.remove('show');
-    pop.setAttribute('aria-hidden', 'true');
+    ov.classList.remove('show');
+    ov.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('up-lock');
     markDone();
   }
   function onScroll(){
@@ -2528,6 +2548,8 @@
     }
   });
   document.getElementById('urgent-pop-close').addEventListener('click', function(){ hide(); goal('urgent_popup_close'); });
+  document.getElementById('urgent-pop-later').addEventListener('click', function(){ hide(); goal('urgent_popup_close'); });
+  ov.addEventListener('click', function(e){ if(e.target === ov){ hide(); goal('urgent_popup_close'); } });
   document.getElementById('urgent-pop-call').addEventListener('click', function(){ goal('urgent_popup_call'); hide(); });
   document.getElementById('urgent-pop-form').addEventListener('click', function(){
     goal('urgent_popup_form'); hide();
