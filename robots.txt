@@ -39,4 +39,7 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
+# Яндекс: не индексировать дубли страниц с рекламными метками
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&ysclid&etext&gclid&from&_openstat
+
 Sitemap: https://evacmsc.ru/sitemap.xml
